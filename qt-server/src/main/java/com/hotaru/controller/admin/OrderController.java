@@ -3,6 +3,7 @@ package com.hotaru.controller.admin;
 import com.hotaru.result.Result;
 import com.hotaru.service.OrderService;
 import com.hotaru.vo.OrderVO;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,8 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping("/list/{id}")
-    @Tag(name = "查询订单详情", description = "查询订单详情")
+    @Tag(name = "订单管理")
+    @Operation(summary = "根据ID查询订单详情")
     public Result<OrderVO> orderDetail(@PathVariable Long id) {
         log.info("查询订单详情:{}", id);
         OrderVO orderVO = orderService.list(id);
