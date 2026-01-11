@@ -1,0 +1,7 @@
+qt:
+  datasource:
+    host: localhost
+    port: 3306
+    database: qiantu_move
+    username: root
+    password: "114514"
