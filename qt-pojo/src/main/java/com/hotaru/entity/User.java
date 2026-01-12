@@ -2,13 +2,18 @@ package com.hotaru.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements Serializable {
 
     // userId
@@ -20,7 +25,7 @@ public class User implements Serializable {
     // 昵称
     private String nickname;
 
-    // 头像URL
+    // 头像
     private String avatar;
 
     // 状态 --- 0 正常 1 禁用
@@ -28,9 +33,9 @@ public class User implements Serializable {
 
     // 创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     // 更新时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 }

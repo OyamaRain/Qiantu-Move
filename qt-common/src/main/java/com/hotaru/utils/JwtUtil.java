@@ -10,15 +10,7 @@ import java.util.Map;
 import javax.crypto.SecretKey;
 
 public class JwtUtil {
-    /**
-     * 生成jwt
-     * 使用Hs256算法
-     *
-     * @param secretKey jwt秘钥
-     * @param ttlMillis jwt过期时间(毫秒)
-     * @param claims    设置的信息
-     * @return
-     */
+    // 生成JWT
     public static String createJWT(String secretKey, long ttlMillis, Map<String, Object> claims) {
         // 生成签名密钥
         SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
@@ -35,13 +27,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    /**
-     * Token解密
-     *
-     * @param secretKey jwt秘钥
-     * @param token     加密后的token
-     * @return
-     */
+    // 解析JWT
     public static Claims parseJWT(String secretKey, String token) {
         // 生成签名密钥
         SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));

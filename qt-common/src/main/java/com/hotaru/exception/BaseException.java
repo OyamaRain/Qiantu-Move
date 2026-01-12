@@ -1,8 +1,6 @@
 package com.hotaru.exception;
 
-/**
- * 业务异常
- */
+//业务异常（父类）
 public class BaseException extends RuntimeException {
 
     public BaseException() {

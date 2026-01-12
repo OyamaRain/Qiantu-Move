@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -35,7 +36,7 @@ public class OrderVO implements Serializable {
 
     //预约搬家时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date appointmentTime;
+    private LocalDateTime appointmentTime;
 
     //订单总金额
     private Double totalAmount;
@@ -45,10 +46,10 @@ public class OrderVO implements Serializable {
 
     //订单创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private String createTime;
+    private LocalDateTime createTime;
 
     //订单更新时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private String updateTime;
+    private LocalDateTime updateTime;
 
 }

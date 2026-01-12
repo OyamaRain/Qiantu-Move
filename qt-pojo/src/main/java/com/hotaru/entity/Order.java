@@ -2,13 +2,18 @@ package com.hotaru.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order implements Serializable {
     //id
     private Long id;
@@ -33,7 +38,7 @@ public class Order implements Serializable {
 
     //预约搬家时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date appointmentTime;
+    private LocalDateTime appointmentTime;
 
     //订单总金额
     private Double totalAmount;
@@ -43,6 +48,6 @@ public class Order implements Serializable {
 
     //订单创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private String createTime;
+    private LocalDateTime createTime;
 
 }

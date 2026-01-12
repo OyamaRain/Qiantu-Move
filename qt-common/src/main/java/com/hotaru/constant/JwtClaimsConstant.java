@@ -1,5 +1,6 @@
 package com.hotaru.constant;
 
+// 定义常量类，用于存储JWT中的声明
 public class JwtClaimsConstant {
 
     public static final String EMP_ID = "empId";

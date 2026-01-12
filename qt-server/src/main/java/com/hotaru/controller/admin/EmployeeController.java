@@ -1,8 +1,10 @@
 package com.hotaru.controller.admin;
 
 import com.hotaru.constant.JwtClaimsConstant;
+import com.hotaru.dto.EmployeeDTO;
 import com.hotaru.dto.EmployeeLoginDTO;
 import com.hotaru.dto.EmployeePageQueryDTO;
+import com.hotaru.dto.EmployeePasswordDTO;
 import com.hotaru.entity.Employee;
 import com.hotaru.properties.JwtProperties;
 import com.hotaru.result.PageResult;
@@ -10,6 +12,7 @@ import com.hotaru.result.Result;
 import com.hotaru.service.EmployeeService;
 import com.hotaru.utils.JwtUtil;
 import com.hotaru.vo.EmployeeLoginVO;
+import com.hotaru.vo.EmployeeVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -63,5 +66,50 @@ public class EmployeeController {
         log.info("分页查询员工信息:{}", employeePageQueryDTO);
         PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);
         return Result.success(pageResult);
+    }
+
+    @PutMapping("/editPassword")
+    @Tag(name = "员工管理")
+    @Operation(summary = "员工修改密码")
+    public Result editPassword(@RequestBody EmployeePasswordDTO employeePasswordDTO) {
+        log.info("修改密码:{}", employeePasswordDTO);
+        employeeService.editPassword(employeePasswordDTO);
+        return Result.success();
+    }
+
+    @PostMapping("/status/{status}")
+    @Tag(name = "员工管理")
+    @Operation(summary = "启用或禁用员工账号状态")
+    public Result status(@PathVariable Integer status, @RequestParam Long id) {
+        log.info("启用或禁用员工{}账号状态:{}", id, status);
+        employeeService.status(status, id);
+        return Result.success();
+    }
+
+    @PostMapping
+    @Tag(name = "员工管理")
+    @Operation(summary = "新增员工")
+    public Result addEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("新增员工:{}", employeeDTO);
+        employeeService.addEmployee(employeeDTO);
+        return Result.success();
+    }
+
+    @GetMapping("/{id}")
+    @Tag(name = "员工管理")
+    @Operation(summary = "根据ID查询员工信息")
+    public Result<EmployeeVO> getEmployeeById(@PathVariable Long id){
+        log.info("根据id查询员工{}的信息", id);
+        EmployeeVO employeeVO = employeeService.getById(id);
+        return Result.success(employeeVO);
+    }
+
+    @PutMapping
+    @Tag(name = "员工管理")
+    @Operation(summary = "编辑员工信息")
+    public Result updateEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("编辑员工信息:{}", employeeDTO);
+        employeeService.updateEmployee(employeeDTO);
+        return Result.success();
     }
 }

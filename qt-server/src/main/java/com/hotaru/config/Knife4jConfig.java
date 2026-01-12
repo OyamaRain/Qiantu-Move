@@ -7,6 +7,7 @@ import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+// 配置Knife4j的相关信息
 @Configuration
 public class Knife4jConfig {
 
@@ -23,8 +24,10 @@ public class Knife4jConfig {
     @Bean
     public GroupedOpenApi adminApi() {
         return GroupedOpenApi.builder()
-                .group("管理端接口") // 分组名称
-                .pathsToMatch("/admin/**") // 只扫描管理端的路径
+                // 分组名称
+                .group("管理端接口")
+                // 只扫描管理端的路径
+                .pathsToMatch("/admin/**")
                 .packagesToScan("com.hotaru.controller.admin")
                 .build();
     }

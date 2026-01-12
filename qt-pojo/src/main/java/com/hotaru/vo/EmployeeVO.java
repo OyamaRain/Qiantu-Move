@@ -1,4 +1,4 @@
-package com.hotaru.entity;
+package com.hotaru.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employee implements Serializable {
+public class EmployeeVO implements Serializable {
     // employeeId
     private Long id;
 
@@ -45,5 +45,4 @@ public class Employee implements Serializable {
     // 更新时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
-
 }

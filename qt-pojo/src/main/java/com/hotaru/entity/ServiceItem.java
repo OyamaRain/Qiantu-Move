@@ -2,13 +2,18 @@ package com.hotaru.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ServiceItem implements Serializable {
     //服务项目ID，主键
     private Long id;
@@ -33,5 +38,5 @@ public class ServiceItem implements Serializable {
 
     //创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
+    private LocalDateTime createTime;
 }

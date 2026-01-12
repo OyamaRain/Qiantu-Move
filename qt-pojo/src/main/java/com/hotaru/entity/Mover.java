@@ -2,13 +2,18 @@ package com.hotaru.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Mover implements Serializable {
 
     // moverId
@@ -19,6 +24,9 @@ public class Mover implements Serializable {
 
     // 手机号
     private String phone;
+
+    // 头像
+    private String avatar;
 
     // 状态
     private Integer status;
@@ -31,9 +39,9 @@ public class Mover implements Serializable {
 
     // 创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     // 更新时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 }

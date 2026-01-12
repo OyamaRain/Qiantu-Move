@@ -2,12 +2,17 @@ package com.hotaru.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserAddress implements Serializable {
     // 主键
     private Long id;
@@ -44,11 +49,11 @@ public class UserAddress implements Serializable {
 
     // 创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private String createTime;
+    private LocalDateTime createTime;
 
     // 更新时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private String updateTime;
+    private LocalDateTime updateTime;
 
 
 }

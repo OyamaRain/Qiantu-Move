@@ -11,29 +11,19 @@ import java.sql.SQLIntegrityConstraintViolationException;
 
 import static com.hotaru.constant.MessageConstant.ALREADY_EXISTS;
 
-/**
- * 全局异常处理器，处理项目中抛出的业务异常
- */
+//全局异常处理器
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
-    /**
-     * 捕获业务异常
-     * @param ex
-     * @return
-     */
+    //业务异常
     @ExceptionHandler
     public Result exceptionHandler(BaseException ex){
         log.error("异常信息：{}", ex.getMessage());
         return Result.error(ex.getMessage());
     }
 
-
-    /*
-    * SQL语句异常
-    *
-    * */
+    //SQL语句异常
     @ExceptionHandler
     public Result exceptionHandler(SQLIntegrityConstraintViolationException ex) {
         String message = ex.getMessage();
