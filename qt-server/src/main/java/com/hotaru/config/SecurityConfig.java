@@ -1,12 +1,14 @@
 package com.hotaru.config;
 
 import com.hotaru.filter.JwtAuthenticationFilter;
+import com.hotaru.handler.AccessDeniedHandlerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,10 +18,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+// 启用方法级别的安全配置
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Autowired
+    private AccessDeniedHandlerImpl accessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -46,6 +52,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").authenticated()
 
                         // 其他请求暂时放行（根据实际需求调整）
+                        //TODO 后续管理端完成后再修改
                         .anyRequest().permitAll()
                 )
 
@@ -55,11 +62,12 @@ public class SecurityConfig {
                 // 禁用 HTTP Basic 认证
                 .httpBasic(basic -> basic.disable())
 
-                // 配置认证失败时返回 401
+                // 配置认证失败时返回StatusCode
                 .exceptionHandling(exception ->
-                        exception.authenticationEntryPoint(
-                                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
-                        )
+                        exception
+                                .authenticationEntryPoint(
+                                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                                .accessDeniedHandler(accessDeniedHandler)
                 )
 
                 // 添加 JWT 过滤器

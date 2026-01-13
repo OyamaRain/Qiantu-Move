@@ -1,6 +1,7 @@
 package com.hotaru.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hotaru.enumeration.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,9 @@ public class EmployeeVO implements Serializable {
 
     // 员工姓名
     private String name;
+
+    // 身份
+    private RoleEnum role;
 
     // 性别 --- 0-女，1-男
     private Integer sex;

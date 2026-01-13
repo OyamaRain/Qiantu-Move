@@ -1,5 +1,6 @@
 package com.hotaru.dto;
 
+import com.hotaru.enumeration.RoleEnum;
 import lombok.Data;
 import java.io.Serializable;
 
@@ -13,6 +14,9 @@ public class EmployeeDTO implements Serializable {
 
     // 员工姓名
     private String name;
+
+    // 身份
+    private RoleEnum role;
 
     // 性别 --- 0-女，1-男
     private Integer sex;

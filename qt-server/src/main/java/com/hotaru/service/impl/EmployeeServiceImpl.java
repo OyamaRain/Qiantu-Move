@@ -2,11 +2,9 @@ package com.hotaru.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.hotaru.constant.IdentityConstant;
 import com.hotaru.constant.MessageConstant;
 import com.hotaru.constant.PasswordConstant;
 import com.hotaru.constant.StatusConstant;
-import com.hotaru.context.BaseContext;
 import com.hotaru.dto.EmployeeDTO;
 import com.hotaru.dto.EmployeeLoginDTO;
 import com.hotaru.dto.EmployeePageQueryDTO;
@@ -14,7 +12,6 @@ import com.hotaru.dto.EmployeePasswordDTO;
 import com.hotaru.entity.Employee;
 import com.hotaru.exception.AccountLockedException;
 import com.hotaru.exception.AccountNotFoundException;
-import com.hotaru.exception.IdentityErrorException;
 import com.hotaru.exception.PasswordErrorException;
 import com.hotaru.mapper.EmployeeMapper;
 import com.hotaru.result.PageResult;
@@ -111,12 +108,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         // 根据id查询员工信息
         Employee employee = employeeMapper.getById(id);
 
-        // 校验当前身份权限
-        Long currentId = BaseContext.getCurrentId();
-        if(currentId != IdentityConstant.ADMIN){
-            throw new IdentityErrorException(MessageConstant.IDENTITY_ERROR);
-        }
-
         // 调用mapper更新数据
         employee.setStatus(status);
         employee.setUpdateTime(LocalDateTime.now());
@@ -134,6 +125,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .username(employeeDTO.getUsername())
                 .password(password)
                 .name(employeeDTO.getName())
+                .role(employeeDTO.getRole())
                 .sex(employeeDTO.getSex())
                 .phone(employeeDTO.getPhone())
                 .avatar(employeeDTO.getAvatar())
