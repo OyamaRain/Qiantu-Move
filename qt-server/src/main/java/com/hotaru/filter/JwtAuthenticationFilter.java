@@ -42,7 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 2. 如果 token 不存在
         if (!StringUtils.hasText(token)) {
             // 打印未携带 token 的日志
-            log.warn("请求路径: {} 未携带token", requestURI);
+            //log.warn("请求路径: {} 未携带token", requestURI);
             filterChain.doFilter(request, response);
             return;
         }

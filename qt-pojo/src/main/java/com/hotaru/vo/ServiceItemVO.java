@@ -1,11 +1,10 @@
-package com.hotaru.entity;
+package com.hotaru.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -14,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServiceItem implements Serializable {
+public class ServiceItemVO implements Serializable {
     //服务项目ID，主键
     private Long id;
 

@@ -11,6 +11,7 @@ public class MessageConstant {
     public static final String UNKNOWN_ERROR = "未知错误";
     public static final String USER_NOT_LOGIN = "用户未登录";
     public static final String ALREADY_EXISTS = "已存在";
+    public static final String IDENTITY_ERROR = "账号权限不足";
 
 
 }

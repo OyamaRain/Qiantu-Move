@@ -1,6 +1,7 @@
 package com.hotaru.controller.admin;
 
 import com.hotaru.constant.JwtClaimsConstant;
+import com.hotaru.constant.StatusConstant;
 import com.hotaru.dto.EmployeeDTO;
 import com.hotaru.dto.EmployeeLoginDTO;
 import com.hotaru.dto.EmployeePageQueryDTO;
@@ -81,7 +82,7 @@ public class EmployeeController {
     @Tag(name = "员工管理")
     @Operation(summary = "启用或禁用员工账号状态")
     public Result status(@PathVariable Integer status, @RequestParam Long id) {
-        log.info("启用或禁用员工{}账号状态:{}", id, status);
+        log.info("员工ID{}账号状态:{}", id, status == StatusConstant.ENABLE ? "启用" : "禁用");
         employeeService.status(status, id);
         return Result.success();
     }

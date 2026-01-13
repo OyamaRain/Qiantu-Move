@@ -5,3 +5,7 @@ qt:
     database: qiantu_move
     username: root
     password: "114514"
+  jwt:
+    admin-secret-key: HOTARU-26710-SECRET-KEY-FOR-JWT-AUTHENTICATION
+    admin-ttl: 7200000000
+    admin-token-name: token
