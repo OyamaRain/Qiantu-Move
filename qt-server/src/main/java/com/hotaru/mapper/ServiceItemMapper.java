@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface ServiceItemMapper {
 
@@ -18,10 +20,15 @@ public interface ServiceItemMapper {
     @Select("select * from service_item where id = #{id}")
     ServiceItem getById(Long id);
 
-    @Delete("delete from service_item where id = #{id}")
-    void delete(Long id);
+    void delete(List<Long> ids);
 
-    @Insert("insert into service_item (name, type, unit, price, status, create_time, update_time) " +
-            "values (#{name}, #{type}, #{unit}, #{price}, #{status}, #{createTime}, #{updateTime})")
+    @Insert("insert into service_item (name, category_id, unit, price, status, create_time, update_time) " +
+            "values (#{name}, #{categoryId}, #{unit}, #{price}, #{status}, #{createTime}, #{updateTime})")
     void insert(ServiceItem serviceItem);
+
+    @Select("select * from service_item where category_id = #{CategoryId}")
+    List<ServiceItem> getByCategoryId(Long CategoryId);
+
+    @Delete("delete from service_item where category_id = #{CategoryId}")
+    void deleteByCategoryId(Long CategoryId);
 }

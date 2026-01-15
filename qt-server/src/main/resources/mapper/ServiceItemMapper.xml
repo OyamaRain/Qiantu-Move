@@ -10,8 +10,8 @@
             <if test="name != null and name != ''">
                 and name like concat('%',#{name},'%')
             </if>
-            <if test="type != null">
-                and type = #{type}
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
             </if>
             <if test="status != null">
                 and status = #{status}
@@ -25,8 +25,8 @@
             <if test="name != null and name != ''">
                 name = #{name},
             </if>
-            <if test="type != null">
-                type = #{type},
+            <if test="categoryId != null">
+                category_id = #{categoryId},
             </if>
             <if test="status != null">
                 status = #{status},
@@ -43,5 +43,13 @@
         </set>
         where id = #{id}
     </update>
+
+    <delete id="delete">
+        delete from service_item
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

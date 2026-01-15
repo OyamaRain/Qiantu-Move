@@ -90,6 +90,7 @@ public class EmployeeController {
         return Result.success();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @Tag(name = "员工管理")
     @Operation(summary = "新增员工")
@@ -108,6 +109,7 @@ public class EmployeeController {
         return Result.success(employeeVO);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     @Tag(name = "员工管理")
     @Operation(summary = "编辑员工信息")

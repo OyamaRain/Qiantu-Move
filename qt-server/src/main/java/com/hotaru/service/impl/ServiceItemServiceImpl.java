@@ -44,7 +44,6 @@ public class ServiceItemServiceImpl implements ServiceItemService {
 
     @Override
     public void update(ServiceItemDTO serviceItemDTO) {
-
         // 封装ServiceItem对象
         ServiceItem serviceItem = new ServiceItem();
         BeanUtils.copyProperties(serviceItemDTO,serviceItem);
@@ -56,29 +55,23 @@ public class ServiceItemServiceImpl implements ServiceItemService {
 
     @Override
     public void delete(List<Long> ids) {
-
         // 历遍ids列表
         for (Long id : ids) {
             ServiceItem serviceItem = serviceItemMapper.getById(id);
-
-            // 判断服务项是否存在
-            if(serviceItem == null){
-                throw new ServiceItemNotFoundException(ServiceItemConstant.SERVICE_ITEM_NOT_FOUND);
-            }
 
             // 判断状态
             if(serviceItem.getStatus() == StatusConstant.ENABLE){
                 throw new ServiceItemStatusException(ServiceItemConstant.SERVICE_ITEM_STATUS_ERROR);
             }
 
-            // 调用Mapper删除数据
-            serviceItemMapper.delete(id);
         }
+
+        // 调用Mapper删除数据
+        serviceItemMapper.delete(ids);
     }
 
     @Override
     public void EnableOrDisable(Integer status, Long id) {
-
         // 调用Mapper查询服务项
         ServiceItem serviceItem = serviceItemMapper.getById(id);
 

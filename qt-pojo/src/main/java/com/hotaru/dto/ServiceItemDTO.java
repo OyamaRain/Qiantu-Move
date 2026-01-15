@@ -13,8 +13,8 @@ public class ServiceItemDTO implements Serializable {
     // 服务项名称
     private String name;
 
-    // 服务项目类型，0-基础服务，1-附加服务
-    private Integer type;
+    //服务项目类型
+    private Long categoryId;
 
     // 单位
     private String unit;
