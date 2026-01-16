@@ -2,9 +2,11 @@ package com.hotaru.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 
 @Data
-public class ServiceCategoryDTO {
+public class ServiceCategoryDTO implements Serializable {
 
     // 分类ID
     private Long id;
