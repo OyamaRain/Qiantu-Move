@@ -6,6 +6,8 @@ import com.hotaru.entity.Mover;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface MoverMapper {
     Page<Mover> pageQuery(MoverPageQueryDTO moverPageQueryDTO);
@@ -14,4 +16,6 @@ public interface MoverMapper {
     Mover getById(Long id);
 
     void update(Mover mover);
+
+    List<Mover> findMover(Mover mover);
 }

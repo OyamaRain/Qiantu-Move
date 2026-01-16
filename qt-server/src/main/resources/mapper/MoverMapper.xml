@@ -47,4 +47,13 @@
         where id = #{id}
     </update>
 
+    <select id="findMover" resultType="com.hotaru.entity.Mover">
+        select *
+        from mover
+        where status = #{status}
+        order by rating desc,
+                 order_count
+        limit 1
+    </select>
+
 </mapper>
