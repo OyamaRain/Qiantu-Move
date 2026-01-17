@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hotaru.mapper.ReportMapper">
+
+    <select id="getUsersSumBefore" resultType="java.lang.Integer">
+        select count(id)
+        from user
+        where create_time &lt; #{begin}
+    </select>
+
+    <select id="getNewUsersCountList" resultType="java.util.Map">
+        SELECT
+            DATE_FORMAT(create_time, '%Y-%m-%d') AS date,
+            COUNT(id) AS count
+        FROM user
+        WHERE create_time &gt;= #{begin} AND create_time &lt; #{end}
+        GROUP BY date
+    </select>
+
+    <select id="getTurnoverStatistics" resultType="java.util.Map">
+        SELECT
+            DATE_FORMAT(create_time, '%Y-%m-%d') AS date,
+            SUM(total_price) AS turnover
+        FROM orders
+        WHERE create_time &gt;= #{begin} AND create_time &lt; #{end} AND status = 4
+        GROUP BY date
+    </select>
+
+    <select id="getOrderStatisticsData" resultType="java.util.Map">
+        SELECT
+            DATE_FORMAT(create_time, '%Y-%m-%d') AS date,
+            COUNT(id) AS dayOrderCount,
+            SUM(status = 4) AS dayValidOrderCount
+        FROM orders
+        WHERE create_time &gt;= #{begin} AND create_time &lt; #{end}
+        GROUP BY date
+    </select>
+
+</mapper>
