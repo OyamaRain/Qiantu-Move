@@ -24,8 +24,4 @@ public class ServiceItemDTO implements Serializable {
     // 价格
     private double price;
 
-    // 创建时间
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private String createTime;
-
 }

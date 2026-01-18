@@ -57,20 +57,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.info("JWT令牌校验:{}", token);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
             Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
+            String empName = claims.get(JwtClaimsConstant.EMP_NAME).toString();
+
             // 校验员工角色
             String roleStr = claims.get(JwtClaimsConstant.ROLES).toString();
             RoleEnum role = RoleEnum.valueOf(roleStr);
-            log.info("当前员工角色:{}", role);
 
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(
                     new SimpleGrantedAuthority("ROLE_" + role.name())
             );
 
-
-            // 4. ThreadLocal 用于保存当前登录员工id（保持原有逻辑）
+            // 4. ThreadLocal 用于保存当前登录员工id
             BaseContext.setCurrentId(empId);
-            log.info("当前员工id：{}", empId);
+            BaseContext.setCurrentName(empName);
+            log.info("当前员工id：{},姓名：{},角色：{}", empId, empName, role);
 
             // 5. 创建认证对象并设置到 Spring Security 上下文中
             UsernamePasswordAuthenticationToken authentication =
@@ -78,13 +79,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
+            // 6. 继续执行过滤器链
+            filterChain.doFilter(request, response);
+
         } catch (Exception ex) {
             log.error("请求路径: {} 令牌验证失败", requestURI, ex);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
+        } finally {
+            // 清理线程变量
+            BaseContext.clear();
+            SecurityContextHolder.clearContext();
         }
 
-        // 7. 继续执行过滤器链
-        filterChain.doFilter(request, response);
+
     }
 }

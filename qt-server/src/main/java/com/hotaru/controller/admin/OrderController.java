@@ -1,5 +1,6 @@
 package com.hotaru.controller.admin;
 
+import com.hotaru.annotation.Log;
 import com.hotaru.dto.OrderPageQueryDTO;
 import com.hotaru.result.PageResult;
 import com.hotaru.result.Result;
@@ -38,6 +39,7 @@ public class OrderController {
         return Result.success(pageResult);
     }
 
+    @Log("派送订单")
     @PostMapping("/{id}/dispatch")
     @Tag(name = "订单管理")
     @Operation(summary = "派送订单")
@@ -47,6 +49,7 @@ public class OrderController {
         return Result.success();
     }
 
+    @Log("取消订单")
     @PostMapping("/{id}/cancel")
     @Tag(name = "订单管理")
     @Operation(summary = "取消订单")
@@ -56,6 +59,7 @@ public class OrderController {
         return Result.success();
     }
 
+    @Log("完成订单")
     @PostMapping("/{id}/complete")
     @Tag(name = "订单管理")
     @Operation(summary = "完成订单")

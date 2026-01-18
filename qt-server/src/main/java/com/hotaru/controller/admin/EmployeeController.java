@@ -1,5 +1,6 @@
 package com.hotaru.controller.admin;
 
+import com.hotaru.annotation.Log;
 import com.hotaru.constant.JwtClaimsConstant;
 import com.hotaru.constant.StatusConstant;
 import com.hotaru.dto.EmployeeDTO;
@@ -46,6 +47,7 @@ public class EmployeeController {
         //登录成功后，生成jwt令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.EMP_ID, employee.getId());
+        claims.put(JwtClaimsConstant.EMP_NAME, employee.getName());
         claims.put(JwtClaimsConstant.ROLES, employee.getRole());
         String token = JwtUtil.createJWT(
                 jwtProperties.getAdminSecretKey(),
@@ -71,6 +73,7 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+    @Log("员工修改密码")
     @PutMapping("/editPassword")
     @Tag(name = "员工管理")
     @Operation(summary = "员工修改密码")
@@ -80,16 +83,18 @@ public class EmployeeController {
         return Result.success();
     }
 
+    @Log("更改员工账号状态")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/status/{status}")
     @Tag(name = "员工管理")
     @Operation(summary = "启用或禁用员工账号状态")
     public Result status(@PathVariable Integer status, @RequestParam Long id) {
-        log.info("员工ID{}账号状态:{}", id, status == StatusConstant.ENABLE ? "启用" : "禁用");
+        log.info("员工ID：{},账号状态:{}", id, status == StatusConstant.ENABLE ? "启用" : "禁用");
         employeeService.status(status, id);
         return Result.success();
     }
 
+    @Log("新增员工")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @Tag(name = "员工管理")
@@ -109,6 +114,7 @@ public class EmployeeController {
         return Result.success(employeeVO);
     }
 
+    @Log("编辑员工信息")
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     @Tag(name = "员工管理")

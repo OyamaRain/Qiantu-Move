@@ -3,18 +3,34 @@ package com.hotaru.context;
 // ThreadLocal --- 用于保存当前登录用户的id
 public class BaseContext {
 
-    public static ThreadLocal<Long> threadLocal = new ThreadLocal<>();
+    private static final ThreadLocal<Long> currentId = new ThreadLocal<>();
+    private static final ThreadLocal<String> currentName = new ThreadLocal<>();
+
+    private BaseContext() {
+        // 防止被 new
+    }
 
     public static void setCurrentId(Long id) {
-        threadLocal.set(id);
+        currentId.set(id);
     }
 
     public static Long getCurrentId() {
-        return threadLocal.get();
+        return currentId.get();
     }
 
-    public static void removeCurrentId() {
-        threadLocal.remove();
+    public static void setCurrentName(String name) {
+        currentName.set(name);
+    }
+
+    public static String getCurrentName() {
+        return currentName.get();
+    }
+
+
+     //统一清理 ThreadLocal
+    public static void clear() {
+        currentId.remove();
+        currentName.remove();
     }
 
 }

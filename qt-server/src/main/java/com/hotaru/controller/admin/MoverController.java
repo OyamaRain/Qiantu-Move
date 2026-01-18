@@ -1,5 +1,6 @@
 package com.hotaru.controller.admin;
 
+import com.hotaru.annotation.Log;
 import com.hotaru.dto.MoverDTO;
 import com.hotaru.dto.MoverPageQueryDTO;
 import com.hotaru.result.PageResult;
@@ -30,6 +31,7 @@ public class MoverController {
         return Result.success(pageResult);
     }
 
+    @Log("更改搬家师傅账号状态")
     @PostMapping("/status/{status}")
     @Tag(name = "搬家师傅管理")
     @Operation(summary = "更改搬家师傅账号状态")
@@ -54,6 +56,7 @@ public class MoverController {
         return Result.success(moverVO);
     }
 
+    @Log("编辑搬家师傅信息")
     @PutMapping
     @Tag(name = "搬家师傅管理")
     @Operation(summary = "编辑搬家师傅信息")

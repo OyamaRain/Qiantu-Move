@@ -1,5 +1,6 @@
 package com.hotaru.controller.admin;
 
+import com.hotaru.annotation.Log;
 import com.hotaru.constant.StatusConstant;
 import com.hotaru.dto.ServiceCategoryDTO;
 import com.hotaru.dto.ServiceCategoryPageQueryDTO;
@@ -23,6 +24,7 @@ public class ServiceCategoryController {
     @Autowired
     private ServiceCategoryService categoryService;
 
+    @Log("修改分类")
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     @Tag(name = "分类管理")
@@ -42,6 +44,7 @@ public class ServiceCategoryController {
         return Result.success(pageResult);
     }
 
+    @Log("启用、禁用分类")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/status/{status}")
     @Tag(name = "分类管理")
@@ -52,6 +55,7 @@ public class ServiceCategoryController {
         return Result.success();
     }
 
+    @Log("新增分类")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @Tag(name = "分类管理")
@@ -62,6 +66,7 @@ public class ServiceCategoryController {
         return Result.success();
     }
 
+    @Log("删除分类")
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping
     @Tag(name = "分类管理")
