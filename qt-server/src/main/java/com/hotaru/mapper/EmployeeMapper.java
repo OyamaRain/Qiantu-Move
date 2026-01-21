@@ -20,7 +20,7 @@ public interface EmployeeMapper {
 
     void update(Employee employee);
 
-    @Insert("insert into employee (username, password, name, sex, phone, avatar, status, create_time)" +
-            " values (#{username}, #{password}, #{name}, #{sex}, #{phone}, #{avatar}, #{status}, #{createTime}) ")
+    @Insert("insert into employee (username, password, name,role, sex, phone, avatar, status, create_time)" +
+            " values (#{username}, #{password}, #{name},#{role}, #{sex}, #{phone}, #{avatar}, #{status}, #{createTime}) ")
     void insert(Employee employee);
 }
