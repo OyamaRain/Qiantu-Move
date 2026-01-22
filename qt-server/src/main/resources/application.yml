@@ -11,6 +11,12 @@ spring:
     url: jdbc:mysql://${qt.datasource.host}:${qt.datasource.port}/${qt.datasource.database}?useSSL=false&serverTimezone=UTC&characterEncoding=utf-8
     username: ${qt.datasource.username}
     password: ${qt.datasource.password}
+  servlet:
+    multipart:
+      # 单个文件的最大限制
+      max-file-size: 5MB
+      # 单次请求（可能包含多个文件）的最大限制
+      max-request-size: 20MB
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -51,4 +57,10 @@ qt:
     admin-ttl: ${qt.jwt.admin-ttl}
     # 设置前端传递过来的令牌名称
     admin-token-name: ${qt.jwt.admin-token-name}
+  aliyun:
+    oss:
+      endpoint: ${qt.aliyun.endpoint}
+      access-key-id: ${qt.aliyun.access-key-id}
+      access-key-secret: ${qt.aliyun.access-key-secret}
+      bucket-name: ${qt.aliyun.bucket-name}
 

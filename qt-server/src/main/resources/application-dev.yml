@@ -7,5 +7,11 @@ qt:
     password: "114514"
   jwt:
     admin-secret-key: HOTARU-26710-SECRET-KEY-FOR-JWT-AUTHENTICATION
-    admin-ttl: 7200000000
+    admin-ttl: 604800000 # 7天
     admin-token-name: token
+  aliyun:
+    oss:
+      endpoint: ${ALIYUN_OSS_ENDPOINT}
+      access-key-id: ${ALIYUN_OSS_ACCESS_KEY_ID}
+      access-key-secret: ${ALIYUN_OSS_ACCESS_KEY_SECRET}
+      bucket-name: ${ALIYUN_OSS_BUCKET_NAME}

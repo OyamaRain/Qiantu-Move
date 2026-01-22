@@ -43,6 +43,9 @@ public class SecurityConfig {
                         // 放行登录接口
                         .requestMatchers("/admin/employee/login").permitAll()
 
+                        // 放行文件上传接口
+                        .requestMatchers("/admin/common/upload").authenticated()
+
                         // 放行 Swagger 文档
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/doc.html", "/webjars/**").permitAll()
