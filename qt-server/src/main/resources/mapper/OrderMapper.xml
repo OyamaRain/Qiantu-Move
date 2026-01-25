@@ -4,6 +4,38 @@
 
 <mapper namespace="com.hotaru.mapper.OrderMapper">
 
+    <select id="getDetailsById" resultType="com.hotaru.vo.OrderVO">
+        SELECT
+            o.*,
+            m.name AS moverName,
+
+            CONCAT(
+                    IFNULL(s.province, ''),
+                    IF(s.province = s.city, '', IFNULL(s.city, '')),
+                    IFNULL(s.district, ''),
+                    IFNULL(s.detail_address, ''),
+                    IF(s.floor IS NOT NULL, CONCAT(s.floor, '层'), '')
+            ) AS startAddressName,
+
+            CONCAT(
+                    IFNULL(e.province, ''),
+                    IF(e.province = e.city, '', IFNULL(e.city, '')),
+                    IFNULL(e.district, ''),
+                    IFNULL(e.detail_address, ''),
+                    IF(e.floor IS NOT NULL, CONCAT(e.floor, '层'), '')
+            ) AS endAddressName
+        FROM orders o
+                 LEFT JOIN user_address s ON o.start_address_id = s.id
+                 LEFT JOIN user_address e ON o.end_address_id = e.id
+                 LEFT JOIN mover m ON o.mover_id = m.id
+        WHERE o.id = #{id}
+    </select>
+
+    <select id="getById" resultType="com.hotaru.entity.Order">
+        select * from orders
+        where id = #{id}
+    </select>
+
     <select id="pageQuery" resultType="com.hotaru.entity.Order">
         select * from orders
         <where>
@@ -38,6 +70,7 @@
                 update_time = #{updateTime},
             </if>
         </set>
+        where id = #{id}
     </update>
 
 </mapper>

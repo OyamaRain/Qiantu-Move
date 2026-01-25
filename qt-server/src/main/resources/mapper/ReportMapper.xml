@@ -22,7 +22,7 @@
     <select id="getTurnoverStatistics" resultType="java.util.Map">
         SELECT
             DATE_FORMAT(create_time, '%Y-%m-%d') AS date,
-            SUM(total_price) AS turnover
+            SUM(total_amount) AS turnover
         FROM orders
         WHERE create_time &gt;= #{begin} AND create_time &lt; #{end} AND status = 4
         GROUP BY date

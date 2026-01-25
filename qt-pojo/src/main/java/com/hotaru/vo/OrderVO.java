@@ -27,14 +27,23 @@ public class OrderVO implements Serializable {
     //师傅id
     private Long moverId;
 
+    //师傅姓名
+    private String moverName;
+
     //搬家方式 --- 1：同城 2：跨城
     private Integer moveType;
 
-    //起始地址
+    //起始地址ID
     private String startAddressId;
 
-    //目的地
+    //起始地址
+    private String startAddressName;
+
+    //目的地ID
     private String endAddressId;
+
+    //目的地
+    private String endAddressName;
 
     //预约搬家时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

@@ -9,11 +9,13 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface OrderMapper {
+    OrderVO getDetailsById(Long id);
 
-    @Select("select * from orders where id = #{id}")
     Order getById(Long id);
 
     Page<Order> pageQuery(OrderPageQueryDTO orderPageQueryDTO);
 
     void update(Order order);
+
+
 }

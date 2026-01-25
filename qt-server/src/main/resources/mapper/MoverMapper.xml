@@ -56,4 +56,11 @@
         limit 1
     </select>
 
+    <select id="findMovers" resultType="com.hotaru.entity.Mover">
+        SELECT * FROM mover
+        WHERE status = 1 -- 只找空闲的
+        ORDER BY rating DESC, order_count DESC
+        LIMIT 10; -- 返回前10名最优选
+    </select>
+
 </mapper>

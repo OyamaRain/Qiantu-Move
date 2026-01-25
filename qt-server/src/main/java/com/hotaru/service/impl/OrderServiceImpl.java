@@ -16,7 +16,6 @@ import com.hotaru.mapper.OrderMapper;
 import com.hotaru.result.PageResult;
 import com.hotaru.service.OrderService;
 import com.hotaru.vo.OrderVO;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,9 +33,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderVO list(Long id) {
-        Order order = orderMapper.getById(id);
-        OrderVO orderVO = new OrderVO();
-        BeanUtils.copyProperties(order,orderVO);
+        // 所有的拼接工作和关联查询都在 SQL 层面处理好了
+        // 映射结果直接就是带地址名称的 OrderVO
+        OrderVO orderVO = orderMapper.getDetailsById(id);
+
+        if (orderVO == null) {
+            throw new OrderNotFoundException("订单不存在");
+        }
+
         return orderVO;
     }
 
@@ -66,26 +70,14 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderNotFoundException(MessageConstant.ORDER_NOT_FOUND);
         }
 
-        // 检查订单状态是否为待接单
-        if(order.getStatus() != OrderStatusConstant.PENDING_ASSIGN){
+        // 检查订单状态是否为已支付
+        if(order.getStatus() != OrderStatusConstant.PAID){
             throw new OrderStatusErrorException(MessageConstant.ORDER_STATUS_ERROR);
         }
 
-        // 查找合适的搬家师傅
-        Mover mover = Mover.builder()
-                .status(MoverStatusConstant.IDLE)
-                .build();
-        List<Mover> expectedMover = moverMapper.findMover(mover);
-
-        // 检查是否找到合适的搬家师傅
-        if(expectedMover.isEmpty()){
-            throw new ExpectedMoverNotFoundException(MessageConstant.MOVER_NOT_FOUND);
-        }
-
-        // 更新订单状态为已接单
-        Mover selectedMover = expectedMover.get(0);
-        order.setStatus(OrderStatusConstant.ASSIGNED);
-        order.setMoverId(selectedMover.getId());
+        // 更新订单状态为待接单
+        order.setStatus(OrderStatusConstant.PENDING_ASSIGN);
+        //TODO 等待师傅接单
         order.setUpdateTime(LocalDateTime.now());
         orderMapper.update(order);
     }
@@ -102,8 +94,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // 检查订单状态是否为已接单
-        if (order.getStatus() == OrderStatusConstant.ASSIGNED
-            || order.getStatus() == OrderStatusConstant.COMPLETED) {
+        if (order.getStatus() == OrderStatusConstant.COMPLETED) {
             throw new OrderStatusErrorException(MessageConstant.ORDER_STATUS_ERROR);
         }
 
@@ -134,6 +125,20 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatusConstant.COMPLETED);
         order.setUpdateTime(LocalDateTime.now());
         orderMapper.update(order);
+    }
+
+    @Override
+    public List<Mover> recommendMover(Long orderId) {
+        // 调用Mapper查询Movers
+        List<Mover> movers = moverMapper.findMovers();
+
+        // 检查是否找到合适的搬家师傅
+        if(movers.isEmpty()){
+            throw new ExpectedMoverNotFoundException(MessageConstant.MOVER_NOT_FOUND);
+        }
+
+        return movers;
+
     }
 
 

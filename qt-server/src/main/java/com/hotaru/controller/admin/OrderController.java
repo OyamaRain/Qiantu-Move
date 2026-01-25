@@ -2,8 +2,10 @@ package com.hotaru.controller.admin;
 
 import com.hotaru.annotation.Log;
 import com.hotaru.dto.OrderPageQueryDTO;
+import com.hotaru.entity.Mover;
 import com.hotaru.result.PageResult;
 import com.hotaru.result.Result;
+import com.hotaru.service.MoverService;
 import com.hotaru.service.OrderService;
 import com.hotaru.vo.OrderVO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin/orders")
@@ -44,7 +48,7 @@ public class OrderController {
     @Tag(name = "订单管理")
     @Operation(summary = "派送订单")
     public Result dispatch(@PathVariable Long id) {
-        log.info("派送订单：{}", id);
+        log.info("指派订单{}", id);
         orderService.dispatch(id);
         return Result.success();
     }
@@ -69,6 +73,14 @@ public class OrderController {
         return Result.success();
     }
 
+    @GetMapping("/recommend")
+    @Tag(name = "订单管理")
+    @Operation(summary = "根据订单ID查询推荐的搬家师傅")
+    public Result<List<Mover>> recommentMover(@RequestParam("orderId") Long orderId) {
+        log.info("根据订单id查询推荐的搬家师傅：{}", orderId);
+        List<Mover> movers = orderService.recommendMover(orderId);
+        return Result.success(movers);
+    }
 
 
 

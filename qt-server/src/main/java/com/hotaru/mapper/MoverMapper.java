@@ -18,4 +18,6 @@ public interface MoverMapper {
     void update(Mover mover);
 
     List<Mover> findMover(Mover mover);
+
+    List<Mover> findMovers();
 }
