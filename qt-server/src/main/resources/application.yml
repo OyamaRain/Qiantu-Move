@@ -78,6 +78,10 @@ qt:
     admin-ttl: ${qt.jwt.admin-ttl}
     # 设置前端传递过来的令牌名称
     admin-token-name: ${qt.jwt.admin-token-name}
+    # 用户端配置
+    user-secret-key: ${qt.jwt.user-secret-key}
+    user-ttl: ${qt.jwt.user-ttl}
+    user-token-name: ${qt.jwt.user-token-name}
   aliyun:
     oss:
       endpoint: ${qt.aliyun.endpoint}

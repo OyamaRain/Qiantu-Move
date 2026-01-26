@@ -41,8 +41,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 获取请求路径用于日志
         String requestURI = request.getRequestURI();
 
-        // 1. 从请求头中获取令牌
-        String token = request.getHeader(jwtProperties.getAdminTokenName());
+        String token = null;
+        String secretKey = null;
+
+        // 1. 【动态识别】根据路径判断是管理端还是移动端用户
+        if (requestURI.startsWith("/admin")) {
+            token = request.getHeader(jwtProperties.getAdminTokenName());
+            secretKey = jwtProperties.getAdminSecretKey();
+        } else if (requestURI.startsWith("/user")) {
+            token = request.getHeader(jwtProperties.getUserTokenName());
+            secretKey = jwtProperties.getUserSecretKey();
+        }
 
         // 2. 如果 token 不存在
         if (!StringUtils.hasText(token)) {
@@ -54,41 +63,44 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             // 3. 校验令牌
-            log.info("JWT令牌校验:{}", token);
-            Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
-            Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
-            String empName = claims.get(JwtClaimsConstant.EMP_NAME).toString();
-
-            // 校验员工角色
+            log.info("JWT令牌校验: {}", token);
+            Claims claims = JwtUtil.parseJWT(secretKey, token);
             String roleStr = claims.get(JwtClaimsConstant.ROLES).toString();
-            RoleEnum role = RoleEnum.valueOf(roleStr);
 
+            Long id;
+            String name;
+
+            // 2. 分类提取 ID 和 Name
+            if (requestURI.startsWith("/admin")) {
+                id = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
+                // 提取员工姓名
+                name = claims.get(JwtClaimsConstant.EMP_NAME).toString();
+            } else {
+                id = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
+                // 提取用户昵称
+                name = claims.get(JwtClaimsConstant.USERNAME).toString();
+            }
+
+            // 3. 填充 ThreadLocal 供日志记录使用
+            BaseContext.setCurrentId(id);
+            BaseContext.setCurrentName(name);
+
+            // 4. 配置 Security 上下文
             List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(
-                    new SimpleGrantedAuthority("ROLE_" + role.name())
-            );
-
-            // 4. ThreadLocal 用于保存当前登录员工id
-            BaseContext.setCurrentId(empId);
-            BaseContext.setCurrentName(empName);
-            log.info("当前员工id：{},姓名：{},角色：{}", empId, empName, role);
-
-            // 5. 创建认证对象并设置到 Spring Security 上下文中
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + roleStr));
             UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(empId, null, authorities);
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    new UsernamePasswordAuthenticationToken(id, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            // 6. 继续执行过滤器链
+            log.info("✅ 鉴权通过 - ID: {}, 姓名/昵称: {}, 角色: {}", id, name, roleStr);
             filterChain.doFilter(request, response);
 
         } catch (Exception ex) {
-            log.error("请求路径: {} 令牌验证失败", requestURI, ex);
+            log.error("❌ 请求路径: {} 令牌验证失败", requestURI, ex);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         } finally {
             // 清理线程变量
             BaseContext.clear();
-            SecurityContextHolder.clearContext();
         }
 
 

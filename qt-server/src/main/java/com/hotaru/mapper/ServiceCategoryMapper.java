@@ -1,7 +1,7 @@
 package com.hotaru.mapper;
 
 import com.github.pagehelper.Page;
-import com.hotaru.dto.ServiceCategoryPageQueryDTO;
+import com.hotaru.dto.admin.ServiceCategoryPageQueryDTO;
 import com.hotaru.entity.ServiceCategory;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;

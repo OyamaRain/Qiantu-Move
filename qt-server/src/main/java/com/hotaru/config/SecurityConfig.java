@@ -40,23 +40,20 @@ public class SecurityConfig {
 
                 // 配置请求授权
                 .authorizeHttpRequests(auth -> auth
-                        // 放行登录接口
-                        .requestMatchers("/admin/employee/login").permitAll()
+                        // 1. 公开接口放行
+                        .requestMatchers("/admin/employee/login", "/user/auth/login").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/doc.html", "/webjars/**").permitAll()
 
-                        // 放行文件上传接口
-                        .requestMatchers("/admin/common/upload").authenticated()
+                        // 2. 管理端权限控制
+                        // 只有 ADMIN 或 STAFF 角色的 token 才能访问 /admin/**
+                        .requestMatchers("/admin/**").hasAnyRole("ADMIN", "STAFF")
 
-                        // 放行 Swagger 文档
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/doc.html", "/webjars/**").permitAll()
-                        .requestMatchers("/swagger-resources/**").permitAll()
+                        // 3. 移动端权限控制
+                        // 只有 USER 或 MOVER 角色的 token 才能访问 /user/**
+                        .requestMatchers("/user/**").hasAnyRole("USER", "MOVER")
 
-                        // 所有 /admin/** 路径需要认证
-                        .requestMatchers("/admin/**").authenticated()
-
-                        // 其他请求暂时放行（根据实际需求调整）
-                        //TODO 后续管理端完成后再修改
-                        .anyRequest().permitAll()
+                        // 4. 其他任何请求必须登录
+                        .anyRequest().authenticated()
                 )
 
                 // 禁用默认的表单登录

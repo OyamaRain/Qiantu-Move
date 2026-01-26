@@ -37,11 +37,17 @@ public class Knife4jConfig {
         return GroupedOpenApi.builder()
                 .group("用户端接口")
                 .pathsToMatch("/user/**")
-                .pathsToMatch("/mover/**")
                 .packagesToScan("com.hotaru.controller.user")
-                .packagesToScan("com.hotaru.controller.mover")
                 .build();
     }
 
+    @Bean
+    public GroupedOpenApi moverApi() {
+        return GroupedOpenApi.builder()
+                .group("师傅端接口")
+                .pathsToMatch("/mover/**")
+                .packagesToScan("com.hotaru.controller.mover")
+                .build();
+    }
 
 }

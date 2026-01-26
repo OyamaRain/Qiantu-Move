@@ -1,7 +1,7 @@
 package com.hotaru.mapper;
 
 import com.github.pagehelper.Page;
-import com.hotaru.dto.LogPageQueryDTO;
+import com.hotaru.dto.admin.LogPageQueryDTO;
 import com.hotaru.entity.SysLog;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;

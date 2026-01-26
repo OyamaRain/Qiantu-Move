@@ -1,6 +1,7 @@
 package com.hotaru.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hotaru.enumeration.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,8 +23,14 @@ public class User implements Serializable {
     // 电话号码
     private String phone;
 
+    // 密码
+    private String password;
+
     // 昵称
     private String nickname;
+
+    // 角色
+    private RoleEnum role;
 
     // 头像
     private String avatar;

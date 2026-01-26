@@ -1,7 +1,7 @@
 package com.hotaru.mapper;
 
 import com.github.pagehelper.Page;
-import com.hotaru.dto.MoverPageQueryDTO;
+import com.hotaru.dto.admin.MoverPageQueryDTO;
 import com.hotaru.entity.Mover;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

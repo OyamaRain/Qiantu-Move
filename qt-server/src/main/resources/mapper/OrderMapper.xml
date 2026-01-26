@@ -4,7 +4,7 @@
 
 <mapper namespace="com.hotaru.mapper.OrderMapper">
 
-    <select id="getDetailsById" resultType="com.hotaru.vo.OrderVO">
+    <select id="getDetailsById" resultType="com.hotaru.vo.admin.OrderVO">
         SELECT
             o.*,
             m.name AS moverName,

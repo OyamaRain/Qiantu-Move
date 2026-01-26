@@ -1,7 +1,7 @@
 package com.hotaru.mapper;
 
 import com.github.pagehelper.Page;
-import com.hotaru.dto.EmployeePageQueryDTO;
+import com.hotaru.dto.admin.EmployeePageQueryDTO;
 import com.hotaru.entity.Employee;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;

@@ -9,6 +9,9 @@ qt:
     admin-secret-key: HOTARU-26710-SECRET-KEY-FOR-JWT-AUTHENTICATION
     admin-ttl: 604800000 # 7天
     admin-token-name: token
+    user-secret-key: HOTARU-26710-SECRET-KEY-FOR-JWT-AUTHENTICATION
+    user-ttl: 604800000 # 7天
+    user-token-name: token
   aliyun:
     oss:
       endpoint: ${ALIYUN_OSS_ENDPOINT}
