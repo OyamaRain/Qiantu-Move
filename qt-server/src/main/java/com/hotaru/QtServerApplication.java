@@ -12,7 +12,7 @@ public class QtServerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(QtServerApplication.class, args);
-        log.info("Server has started");
+        log.info("✅ 服务器已启动");
     }
 
 }

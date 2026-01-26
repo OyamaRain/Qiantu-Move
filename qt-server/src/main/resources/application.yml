@@ -10,7 +10,11 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 建议时区改为 Asia/Shanghai，避免查出的时间跟北京时间差 8 小时
-    url: jdbc:mysql://${qt.datasource.host}:${qt.datasource.port}/${qt.datasource.database}?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf-8&autoReconnect=true
+    url: jdbc:mysql://${qt.datasource.host}:${qt.datasource.port}/${qt.datasource.database}
+      ?useSSL=false
+      &serverTimezone=Asia/Shanghai
+      &characterEncoding=utf-8
+      &allowPublicKeyRetrieval=true
     username: ${qt.datasource.username}
     password: ${qt.datasource.password}
     # 注意：hikari 必须和上面的 username/password 对齐
