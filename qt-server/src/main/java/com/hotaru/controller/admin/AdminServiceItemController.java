@@ -6,7 +6,7 @@ import com.hotaru.dto.admin.ServiceItemDTO;
 import com.hotaru.dto.admin.ServiceItemPageQueryDTO;
 import com.hotaru.result.PageResult;
 import com.hotaru.result.Result;
-import com.hotaru.service.admin.ServiceItemService;
+import com.hotaru.service.admin.AdminServiceItemService;
 import com.hotaru.vo.admin.ServiceItemVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,7 +23,7 @@ import java.util.List;
 public class AdminServiceItemController {
 
     @Autowired
-    private ServiceItemService serviceItemService;
+    private AdminServiceItemService serviceItemService;
 
     @GetMapping("/page")
     @Tag(name = "服务项管理")

@@ -52,4 +52,12 @@
         </foreach>
     </delete>
 
+    <select id="listByIds" resultType="com.hotaru.entity.ServiceItem">
+        select id, name, price from service_item
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
 </mapper>

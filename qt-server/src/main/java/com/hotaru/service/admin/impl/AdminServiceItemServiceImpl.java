@@ -10,7 +10,7 @@ import com.hotaru.entity.ServiceItem;
 import com.hotaru.exception.ServiceItemStatusException;
 import com.hotaru.mapper.ServiceItemMapper;
 import com.hotaru.result.PageResult;
-import com.hotaru.service.admin.ServiceItemService;
+import com.hotaru.service.admin.AdminServiceItemService;
 import com.hotaru.vo.admin.ServiceItemVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ServiceItemServiceImpl implements ServiceItemService {
+public class AdminServiceItemServiceImpl implements AdminServiceItemService {
 
     @Autowired
     private ServiceItemMapper serviceItemMapper;

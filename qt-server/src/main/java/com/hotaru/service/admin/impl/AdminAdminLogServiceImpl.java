@@ -6,14 +6,14 @@ import com.hotaru.dto.admin.LogPageQueryDTO;
 import com.hotaru.entity.SysLog;
 import com.hotaru.mapper.LogMapper;
 import com.hotaru.result.PageResult;
-import com.hotaru.service.admin.LogService;
+import com.hotaru.service.admin.AdminLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class LogServiceImpl implements LogService {
+public class AdminAdminLogServiceImpl implements AdminLogService {
 
     @Autowired
     private LogMapper logMapper;

@@ -13,7 +13,7 @@ import com.hotaru.exception.OrderStatusErrorException;
 import com.hotaru.mapper.MoverMapper;
 import com.hotaru.mapper.OrderMapper;
 import com.hotaru.result.PageResult;
-import com.hotaru.service.admin.OrderService;
+import com.hotaru.service.admin.AdminOrderService;
 import com.hotaru.vo.admin.OrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class OrderServiceImpl implements OrderService {
+public class AdminAdminOrderServiceImpl implements AdminOrderService {
 
     @Autowired
     private OrderMapper orderMapper;

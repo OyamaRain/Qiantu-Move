@@ -14,7 +14,7 @@ import com.hotaru.exception.ServiceItemStatusException;
 import com.hotaru.mapper.ServiceCategoryMapper;
 import com.hotaru.mapper.ServiceItemMapper;
 import com.hotaru.result.PageResult;
-import com.hotaru.service.admin.ServiceCategoryService;
+import com.hotaru.service.admin.AdminServiceCategoryService;
 import com.hotaru.vo.admin.ServiceCategoryVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ServiceCategoryServiceImpl implements ServiceCategoryService {
+public class AdminAdminServiceCategoryServiceImpl implements AdminServiceCategoryService {
 
     @Autowired
     private ServiceCategoryMapper serviceCategoryMapper;

@@ -7,7 +7,7 @@ import com.hotaru.vo.admin.OrderVO;
 
 import java.util.List;
 
-public interface OrderService {
+public interface AdminOrderService {
     //查询订单
     OrderVO list(Long id);
 

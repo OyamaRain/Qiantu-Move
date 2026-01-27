@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hotaru.mapper.OrderServiceLogicMapper">
+
+    <insert id="insertBatch">
+        insert into order_service_logic
+            (order_id, service_item_id, quantity, unit_price, subtotal_price, create_time)
+        VALUES
+            <foreach collection="detailList" item="item" separator=",">
+                (#{item.orderId},
+                 #{item.serviceItemId},
+                 #{item.quantity},
+                 #{item.unitPrice},
+                 #{item.subtotalPrice},
+                 #{item.createTime})
+            </foreach>
+    </insert>
+
+</mapper>

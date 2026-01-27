@@ -5,7 +5,7 @@ import com.hotaru.dto.admin.OrderPageQueryDTO;
 import com.hotaru.entity.Mover;
 import com.hotaru.result.PageResult;
 import com.hotaru.result.Result;
-import com.hotaru.service.admin.OrderService;
+import com.hotaru.service.admin.AdminOrderService;
 import com.hotaru.vo.admin.OrderVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,7 +22,7 @@ import java.util.List;
 public class AdminOrderController {
 
     @Autowired
-    private OrderService orderService;
+    private AdminOrderService orderService;
 
     @GetMapping("/details/{id}")
     @Tag(name = "订单管理")

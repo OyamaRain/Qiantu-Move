@@ -7,7 +7,7 @@ import com.hotaru.vo.admin.OrderStatisticsVO;
 import com.hotaru.vo.admin.TurnoverStatisticsVO;
 import com.hotaru.vo.admin.UserStatisticsVO;
 
-public interface ReportService {
+public interface AdminReportService {
     // 获取用户统计数据
     UserStatisticsVO getUserStatistics(UserStatisticsDTO userStatisticsDTO);
 

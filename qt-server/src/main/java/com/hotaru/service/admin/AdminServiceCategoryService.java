@@ -5,7 +5,7 @@ import com.hotaru.dto.admin.ServiceCategoryPageQueryDTO;
 import com.hotaru.result.PageResult;
 import com.hotaru.vo.admin.ServiceCategoryVO;
 
-public interface ServiceCategoryService {
+public interface AdminServiceCategoryService {
     // 修改分类
     void update(ServiceCategoryDTO serviceCategoryDTO);
 

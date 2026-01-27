@@ -7,7 +7,7 @@ import com.hotaru.dto.admin.MoverPageQueryDTO;
 import com.hotaru.entity.Mover;
 import com.hotaru.mapper.MoverMapper;
 import com.hotaru.result.PageResult;
-import com.hotaru.service.admin.MoverService;
+import com.hotaru.service.admin.AdminMoverService;
 import com.hotaru.vo.admin.MoverVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class MoverServiceImpl implements MoverService {
+public class AdminMoverServiceImpl implements AdminMoverService {
 
     @Autowired
     private MoverMapper moverMapper;

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -28,6 +29,9 @@ public class OrderVO implements Serializable {
 
     //目的地
     private String endAddressName;
+
+    //服务项
+    private List<OrderDetailVO> orderServiceList;
 
     //预约搬家时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

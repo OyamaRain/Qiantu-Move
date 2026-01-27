@@ -23,7 +23,7 @@ public class DataSourceWarmUpRunner implements ApplicationRunner {
         try (Connection connection = dataSource.getConnection()) {
             log.info("✅ 数据库连接预热成功");
         } catch (Exception e) {
-            log.error("❌ 数据库连接预热失败：" + e.getMessage());
+            log.error("❌ 数据库连接预热失败：{}", e.getMessage());
         }
     }
 }

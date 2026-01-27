@@ -7,7 +7,6 @@ import com.hotaru.properties.JwtProperties;
 import com.hotaru.result.Result;
 import com.hotaru.service.user.UserService;
 import com.hotaru.utils.JwtUtil;
-import com.hotaru.vo.admin.EmployeeLoginVO;
 import com.hotaru.vo.user.UserLoginVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

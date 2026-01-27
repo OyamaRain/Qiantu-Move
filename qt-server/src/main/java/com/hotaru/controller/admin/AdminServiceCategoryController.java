@@ -6,7 +6,7 @@ import com.hotaru.dto.admin.ServiceCategoryDTO;
 import com.hotaru.dto.admin.ServiceCategoryPageQueryDTO;
 import com.hotaru.result.PageResult;
 import com.hotaru.result.Result;
-import com.hotaru.service.admin.ServiceCategoryService;
+import com.hotaru.service.admin.AdminServiceCategoryService;
 import com.hotaru.vo.admin.ServiceCategoryVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminServiceCategoryController {
 
     @Autowired
-    private ServiceCategoryService categoryService;
+    private AdminServiceCategoryService categoryService;
 
     @Log("修改分类")
     @PreAuthorize("hasRole('ADMIN')")

@@ -8,7 +8,7 @@ import com.hotaru.entity.Employee;
 import com.hotaru.result.PageResult;
 import com.hotaru.vo.admin.EmployeeVO;
 
-public interface EmployeeService {
+public interface AdminEmployeeService {
 
     //分页查询
     PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO);

@@ -5,9 +5,12 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class OrderDTO implements Serializable {
+    //用户ID
+    private Long userId;
 
     //搬家方式 --- 1：同城 2：跨城
     private Integer moveType;
@@ -18,14 +21,16 @@ public class OrderDTO implements Serializable {
     //目的地
     private String endAddressId;
 
+    //订单详情
+    private List<OrderDetailDTO> orderItems;
+
     //预约搬家时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime appointmentTime;
 
-    //订单总金额
-    private Double totalAmount;
-
     //订单创建时间
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
+
 }
+

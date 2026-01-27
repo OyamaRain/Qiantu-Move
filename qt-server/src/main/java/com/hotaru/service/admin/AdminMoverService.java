@@ -5,7 +5,7 @@ import com.hotaru.dto.admin.MoverPageQueryDTO;
 import com.hotaru.result.PageResult;
 import com.hotaru.vo.admin.MoverVO;
 
-public interface MoverService {
+public interface AdminMoverService {
     // 分页查询
     PageResult pageQuery(MoverPageQueryDTO moverPageQueryDTO);
 

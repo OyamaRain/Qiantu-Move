@@ -3,7 +3,7 @@ package com.hotaru.controller.admin;
 import com.hotaru.dto.admin.LogPageQueryDTO;
 import com.hotaru.result.PageResult;
 import com.hotaru.result.Result;
-import com.hotaru.service.admin.LogService;
+import com.hotaru.service.admin.AdminLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminLogController {
 
     @Autowired
-    private LogService logService;
+    private AdminLogService logService;
 
     @GetMapping("/page")
     @Tag(name = "日志管理")

@@ -5,7 +5,7 @@ import com.hotaru.dto.admin.MoverDTO;
 import com.hotaru.dto.admin.MoverPageQueryDTO;
 import com.hotaru.result.PageResult;
 import com.hotaru.result.Result;
-import com.hotaru.service.admin.MoverService;
+import com.hotaru.service.admin.AdminMoverService;
 import com.hotaru.vo.admin.MoverVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminMoverController {
 
     @Autowired
-    private MoverService moverService;
+    private AdminMoverService moverService;
 
     @GetMapping("/page")
     @Tag(name = "搬家师傅管理")

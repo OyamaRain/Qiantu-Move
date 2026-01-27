@@ -7,7 +7,7 @@ import com.hotaru.vo.admin.ServiceItemVO;
 
 import java.util.List;
 
-public interface ServiceItemService {
+public interface AdminServiceItemService {
     //分页查询
     PageResult pageQuery(ServiceItemPageQueryDTO serviceItemPageQueryDTO);
 

@@ -4,7 +4,7 @@ import com.hotaru.dto.admin.OrderStatisticsDTO;
 import com.hotaru.dto.admin.TurnoverStatisticsDTO;
 import com.hotaru.dto.admin.UserStatisticsDTO;
 import com.hotaru.mapper.ReportMapper;
-import com.hotaru.service.admin.ReportService;
+import com.hotaru.service.admin.AdminReportService;
 import com.hotaru.vo.admin.OrderStatisticsVO;
 import com.hotaru.vo.admin.TurnoverStatisticsVO;
 import com.hotaru.vo.admin.UserStatisticsVO;
@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class ReportServiceImpl implements ReportService {
+public class AdminAdminReportServiceImpl implements AdminReportService {
 
     @Autowired
     private ReportMapper reportMapper;

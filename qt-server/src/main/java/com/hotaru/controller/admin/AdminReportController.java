@@ -4,7 +4,7 @@ import com.hotaru.dto.admin.OrderStatisticsDTO;
 import com.hotaru.dto.admin.TurnoverStatisticsDTO;
 import com.hotaru.dto.admin.UserStatisticsDTO;
 import com.hotaru.result.Result;
-import com.hotaru.service.admin.ReportService;
+import com.hotaru.service.admin.AdminReportService;
 import com.hotaru.vo.admin.OrderStatisticsVO;
 import com.hotaru.vo.admin.TurnoverStatisticsVO;
 import com.hotaru.vo.admin.UserStatisticsVO;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminReportController {
 
     @Autowired
-    private ReportService reportService;
+    private AdminReportService reportService;
 
     @GetMapping("/userStatistics")
     @Tag(name = "数据统计")

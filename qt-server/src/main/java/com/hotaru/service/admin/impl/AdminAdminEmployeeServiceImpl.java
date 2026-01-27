@@ -15,7 +15,7 @@ import com.hotaru.exception.AccountNotFoundException;
 import com.hotaru.exception.PasswordErrorException;
 import com.hotaru.mapper.EmployeeMapper;
 import com.hotaru.result.PageResult;
-import com.hotaru.service.admin.EmployeeService;
+import com.hotaru.service.admin.AdminEmployeeService;
 import com.hotaru.vo.admin.EmployeeVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class AdminAdminEmployeeServiceImpl implements AdminEmployeeService {
 
     @Autowired
     private EmployeeMapper employeeMapper;

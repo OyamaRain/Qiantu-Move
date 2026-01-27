@@ -11,7 +11,7 @@ import com.hotaru.entity.Employee;
 import com.hotaru.properties.JwtProperties;
 import com.hotaru.result.PageResult;
 import com.hotaru.result.Result;
-import com.hotaru.service.admin.EmployeeService;
+import com.hotaru.service.admin.AdminEmployeeService;
 import com.hotaru.utils.JwtUtil;
 import com.hotaru.vo.admin.EmployeeLoginVO;
 import com.hotaru.vo.admin.EmployeeVO;
@@ -32,7 +32,7 @@ import java.util.Map;
 public class AdminEmployeeController {
 
     @Autowired
-    private EmployeeService employeeService;
+    private AdminEmployeeService employeeService;
     @Autowired
     private JwtProperties jwtProperties;
 
