@@ -13,7 +13,15 @@ public class MessageConstant {
     public static final String ALREADY_EXISTS = "已存在";
     public static final String ORDER_NOT_FOUND = "未找到订单";
     public static final String ORDER_STATUS_ERROR = "订单状态错误";
-    public static final String MOVER_NOT_FOUND = "未找到合适的师傅";
+    public static final String MOVER_NOT_FOUND = "未找到师傅";
+    public static final String ORDER_AUTH_ERROR = "订单归属异常";
+    public static final String ORDER_CANCEL_FAILED = "订单取消失败";
+    public static final String ORDER_CANCEL_SUCCESS = "订单取消成功";
+    public static final String ORDER_PAYMENT_FAILED = "订单支付失败";
+    public static final String ORDER_CANNOT_CANCELLED = "当前状态无法取消订单";
+    public static final String ORDER_CANNOT_COMMENT_BEFORE_FINISH = "订单未完成，无法评价";
+    public static final String ORDER_CANNOT_COMMENT_TWICE = "订单已评价，无法再次评价";
+
 
 
 

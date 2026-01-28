@@ -9,4 +9,6 @@ import java.util.List;
 public interface OrderServiceLogicMapper {
 
     void insertBatch(List<OrderServiceLogic> detailList);
+
+    List<String> getServiceNamesByOrderNo(Long orderId);
 }

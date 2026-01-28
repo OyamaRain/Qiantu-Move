@@ -63,4 +63,11 @@
         LIMIT 10; -- 返回前10名最优选
     </select>
 
+    <update id="updateRating">
+        update mover
+        set rating = #{newRating},
+            order_count = #{orderCount}
+        where id = #{moverId}
+    </update>
+
 </mapper>

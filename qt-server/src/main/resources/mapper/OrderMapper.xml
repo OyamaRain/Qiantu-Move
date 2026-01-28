@@ -86,7 +86,8 @@
              total_amount,
              status,
              create_time,
-             update_time)
+             update_time,
+             is_commented)
         VALUES
             (#{orderNo},
              #{userId},
@@ -98,7 +99,8 @@
              #{totalAmount},
              #{status},
              #{createTime},
-             #{updateTime})
+             #{updateTime},
+             #{isCommented})
     </insert>
 
     <select id="selectTimeoutIds" resultType="java.lang.Long">
@@ -117,6 +119,60 @@
         <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
+    </update>
+
+    <select id="userPageQuery" resultType="com.hotaru.entity.Order">
+        select * from orders
+        <where>
+            AND user_id = #{userId}
+            <choose>
+                <when test="tabType == 1">
+                    and status in (0,1,2,3,4,5)
+                </when>
+                <when test="tabType == 2">
+                    and status in (2,3)
+                </when>
+                <when test="tabType == 3">
+                    and status in (4,5)
+                </when>
+            </choose>
+            <if test="orderNo != null and orderNo != ''">
+                and order_no like concat('%', #{orderNo}, '%')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="getDetailWithRelations" resultType="com.hotaru.vo.user.UserOrderDetailVO">
+        SELECT
+            o.order_no, o.appointment_time, o.move_type, o.status, o.total_amount, o.create_time, o.update_time,
+            o.start_address_id, o.end_address_id,o.is_commented,
+            m.name AS mover_name, m.phone AS mover_phone
+        FROM orders o
+                 LEFT JOIN mover m ON o.mover_id = m.id
+        WHERE o.id = #{orderId} AND o.user_id = #{userId}
+    </select>
+
+    <select id="getMoverInfoByOrderId" resultType="com.hotaru.entity.Mover">
+        select m.id,
+               m.name,
+               m.phone,
+               m.avatar,
+               m.status,
+               m.rating,
+               m.order_count,
+               m.create_time,
+               m.update_time
+        from orders AS o
+                 left join mover AS m
+                           on o.mover_id = m.id
+        where o.id = #{orderId}
+    </select>
+
+    <update id="markCommented">
+        update orders
+        set is_commented = 1
+        where id = #{orderId}
     </update>
 
 </mapper>

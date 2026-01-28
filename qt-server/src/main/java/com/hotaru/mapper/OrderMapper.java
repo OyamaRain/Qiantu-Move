@@ -2,8 +2,10 @@ package com.hotaru.mapper;
 
 import com.github.pagehelper.Page;
 import com.hotaru.dto.admin.OrderPageQueryDTO;
+import com.hotaru.entity.Mover;
 import com.hotaru.entity.Order;
 import com.hotaru.vo.admin.OrderVO;
+import com.hotaru.vo.user.UserOrderDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 
@@ -24,10 +26,15 @@ public interface OrderMapper {
 
     void createOrder(Order order);
 
-    @Update("UPDATE orders SET total_amount = #{totalAmount} WHERE id = #{id}")
-    void updateTotalAmount(Long id, double totalAmount);
-
     List<Long> selectTimeoutIds(LocalDateTime limitTime, Integer status);
 
     void batchCancel(List<Long> ids, Integer status);
+
+    Page<Order> userPageQuery(com.hotaru.dto.user.OrderPageQueryDTO orderPageQueryDTO);
+
+    UserOrderDetailVO getDetailWithRelations(Long orderId, Long userId);
+
+    Mover getMoverInfoByOrderId(Long orderId);
+
+    void markCommented(Long orderId);
 }

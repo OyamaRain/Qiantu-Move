@@ -6,6 +6,7 @@ import com.hotaru.entity.Mover;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Mapper
@@ -20,4 +21,6 @@ public interface MoverMapper {
     List<Mover> findMover(Mover mover);
 
     List<Mover> findMovers();
+
+    void updateRating(Long moverId, BigDecimal newRating, int orderCount);
 }
