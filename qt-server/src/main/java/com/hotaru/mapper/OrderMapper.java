@@ -7,10 +7,10 @@ import com.hotaru.entity.Order;
 import com.hotaru.vo.admin.OrderVO;
 import com.hotaru.vo.user.UserOrderDetailVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Update;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
@@ -37,4 +37,6 @@ public interface OrderMapper {
     Mover getMoverInfoByOrderId(Long orderId);
 
     void markCommented(Long orderId);
+
+    Map<String, Object> getOrderCountById(Long userId);
 }

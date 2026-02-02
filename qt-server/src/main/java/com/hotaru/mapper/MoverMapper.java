@@ -23,4 +23,7 @@ public interface MoverMapper {
     List<Mover> findMovers();
 
     void updateRating(Long moverId, BigDecimal newRating, int orderCount);
+
+    @Select("select avatar from mover where id = #{moverId}")
+    String getAvatarById(Long moverId);
 }

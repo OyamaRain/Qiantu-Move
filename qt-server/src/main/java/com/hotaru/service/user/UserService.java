@@ -1,9 +1,13 @@
 package com.hotaru.service.user;
 
-import com.hotaru.dto.user.UserLoginDTO;
-import com.hotaru.entity.User;
+import com.hotaru.dto.user.UserUpdateInfoDTO;
+import com.hotaru.vo.user.UserLoginVO;
 
 public interface UserService {
-    //用户登录
-    User login(UserLoginDTO userLoginDTO);
+
+    // 微信登录
+    UserLoginVO wxLogin(String code);
+
+    // 更新用户信息
+    void update(UserUpdateInfoDTO userUpdateInfoDTO);
 }

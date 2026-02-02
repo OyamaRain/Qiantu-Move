@@ -9,17 +9,19 @@ import java.io.Serializable;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserLoginVO implements Serializable {
+@NoArgsConstructor
+public class UserInfoVO implements Serializable {
 
-    //openid
-    private String openid;
+    //用户名
+    private String nickname;
+
+    //头像
+    private String avatar;
 
     //手机号
     private String phone;
 
-    //jwt令牌
-    private String token;
-
+    //角色
+    private String role;
 }

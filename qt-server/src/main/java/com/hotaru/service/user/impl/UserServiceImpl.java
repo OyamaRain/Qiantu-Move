@@ -1,52 +1,97 @@
 package com.hotaru.service.user.impl;
 
-import com.hotaru.constant.MessageConstant;
+import ch.qos.logback.core.testUtil.RandomUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.hotaru.constant.JwtClaimsConstant;
 import com.hotaru.constant.StatusConstant;
-import com.hotaru.dto.user.UserLoginDTO;
+import com.hotaru.context.BaseContext;
+import com.hotaru.dto.user.UserUpdateInfoDTO;
 import com.hotaru.entity.User;
-import com.hotaru.exception.AccountLockedException;
-import com.hotaru.exception.AccountNotFoundException;
-import com.hotaru.exception.PasswordErrorException;
+import com.hotaru.enumeration.RoleEnum;
 import com.hotaru.mapper.UserMapper;
+import com.hotaru.properties.JwtProperties;
 import com.hotaru.service.user.UserService;
+import com.hotaru.utils.JwtUtil;
+import com.hotaru.vo.user.UserLoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
+import org.springframework.web.client.RestTemplate;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Value("${qt.wx.appId}")
+    private String appId;
+
+    @Value("${qt.wx.appSecret}")
+    private String appSecret;
+
+    @Autowired
+    private RestTemplate restTemplate;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private JwtProperties jwtProperties;
 
     @Override
-    public User login(UserLoginDTO userLoginDTO) {
-        String phone = userLoginDTO.getPhone();
-        String password = userLoginDTO.getPassword();
+    public UserLoginVO wxLogin(String code) {
+        // 1. 拼接微信 API URL
+        String url = String.format("https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code",
+                appId, appSecret, code);
 
-        //1、根据用户名查询数据库中的数据
-        User user = userMapper.getByPhone(phone);
+        // 2. 发送请求获取 openid 和 session_key
+        String response = restTemplate.getForObject(url, String.class);
+        JSONObject jsonObject = JSON.parseObject(response);
 
-        //2、处理各种异常情况（用户名不存在、密码不对、账号被锁定）
+        String openid = jsonObject.getString("openid");
+        if (openid == null) {
+            throw new RuntimeException("微信登录失败: " + jsonObject.getString("errmsg"));
+        }
+
+        // 3. 数据库逻辑
+        User user = userMapper.findByOpenid(openid);
         if (user == null) {
-            //账号不存在
-            throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
+            user = new User();
+            user.setOpenId(openid);
+            user.setPhone("13800000000");
+            user.setNickname("微信用户");
+            user.setStatus(StatusConstant.ENABLE);
+            user.setCreateTime(LocalDateTime.now());
+            user.setRole(RoleEnum.USER);
+            userMapper.insert(user);
         }
 
-        //密码比对
-        //对前端的密码进行MD5加密处理
-        password = DigestUtils.md5DigestAsHex(password.getBytes());
-        if (!password.equals(user.getPassword())) {
-            //密码错误
-            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
-        }
+        // 4. 生成 JWT Token
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(JwtClaimsConstant.USER_ID, user.getId());
+        claims.put(JwtClaimsConstant.ROLES, user.getRole());
+        claims.put(JwtClaimsConstant.NICKNAME, user.getNickname());
+        String token = JwtUtil.createJWT(
+                jwtProperties.getUserSecretKey(),
+                jwtProperties.getUserTtl(),
+                claims);
 
-        if (user.getStatus() == StatusConstant.DISABLE) {
-            //账号被锁定
-            throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
-        }
+        UserLoginVO userLoginVO = new UserLoginVO();
+        userLoginVO.setOpenid(openid);
+        userLoginVO.setPhone(user.getPhone());
+        userLoginVO.setToken(token);
+        return userLoginVO;
+    }
 
-        //3、返回实体对象
-        return user;
+    @Override
+    public void update(UserUpdateInfoDTO userUpdateInfoDTO) {
+        Long currentId = BaseContext.getCurrentId();
+        User user = new User();
+        user.setId(currentId);
+        user.setNickname(userUpdateInfoDTO.getNickname());
+        user.setAvatar(userUpdateInfoDTO.getAvatar());
+        user.setUpdateTime(LocalDateTime.now());
+        userMapper.update(user);
     }
 }

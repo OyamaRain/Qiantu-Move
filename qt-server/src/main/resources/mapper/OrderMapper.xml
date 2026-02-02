@@ -133,7 +133,7 @@
                     and status in (2,3)
                 </when>
                 <when test="tabType == 3">
-                    and status in (4,5)
+                    and status = 4
                 </when>
             </choose>
             <if test="orderNo != null and orderNo != ''">
@@ -174,5 +174,13 @@
         set is_commented = 1
         where id = #{orderId}
     </update>
+
+    <select id="getOrderCountById" resultType="java.util.Map">
+        SELECT
+            IFNULL(COUNT(CASE WHEN status IN (1, 2) THEN 1 END), 0) AS toBeServed,
+            IFNULL(COUNT(CASE WHEN status IN (4, 5) THEN 1 END), 0) AS completed
+        FROM orders
+        WHERE user_id = #{userId}
+    </select>
 
 </mapper>

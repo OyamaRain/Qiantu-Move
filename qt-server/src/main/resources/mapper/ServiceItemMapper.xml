@@ -60,4 +60,13 @@
         </foreach>
     </select>
 
+    <select id="userServiceItemPageQuery" resultType="com.hotaru.entity.ServiceItem">
+        select * from service_item
+        <where>
+            <if test="serviceItemName != null and serviceItemName != ''">
+                and name like concat('%',#{serviceItemName},'%')
+            </if>
+        </where>
+    </select>
+
 </mapper>

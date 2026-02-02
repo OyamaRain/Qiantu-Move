@@ -9,8 +9,6 @@ import java.util.List;
 
 @Data
 public class OrderDTO implements Serializable {
-    //用户ID
-    private Long userId;
 
     //搬家方式 --- 1：同城 2：跨城
     private Integer moveType;
@@ -28,9 +26,7 @@ public class OrderDTO implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime appointmentTime;
 
-    //订单创建时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime;
+
 
 }
 

@@ -78,7 +78,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             } else {
                 id = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
                 // 提取用户昵称
-                name = claims.get(JwtClaimsConstant.USERNAME).toString();
+                name = claims.get(JwtClaimsConstant.NICKNAME).toString();
             }
 
             // 3. 填充 ThreadLocal 供日志记录使用

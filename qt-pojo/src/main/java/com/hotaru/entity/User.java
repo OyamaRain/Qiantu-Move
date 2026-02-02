@@ -20,11 +20,11 @@ public class User implements Serializable {
     // userId
     private Long id;
 
+    // openid
+    private String openId;
+
     // 电话号码
     private String phone;
-
-    // 密码
-    private String password;
 
     // 昵称
     private String nickname;

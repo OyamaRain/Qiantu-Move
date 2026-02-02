@@ -32,5 +32,9 @@ public interface ServiceItemMapper {
     @Delete("delete from service_item where category_id = #{CategoryId}")
     void deleteByCategoryId(Long CategoryId);
 
+    //--------------------------------------------------
+
     List<ServiceItem> listByIds(List<Long> ids);
+
+    Page<ServiceItem> userServiceItemPageQuery(com.hotaru.dto.user.ServiceItemPageQueryDTO serviceItemPageQueryDTO);
 }

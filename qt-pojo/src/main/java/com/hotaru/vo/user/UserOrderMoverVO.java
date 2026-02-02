@@ -15,6 +15,9 @@ public class UserOrderMoverVO implements Serializable {
     // 师傅id
     private Long moverId;
 
+    // 师傅头像
+    private String avatar;
+
     // 师傅姓名
     private String moverName;
 }

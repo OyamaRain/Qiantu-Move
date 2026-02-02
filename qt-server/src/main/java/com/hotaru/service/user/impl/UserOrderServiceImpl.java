@@ -54,24 +54,26 @@ public class UserOrderServiceImpl implements UserOrderService {
     @Override
     @Transactional
     public OrderVO createOrder(OrderDTO orderDTO) {
-        //生成订单号
+        // 1. 获取当前登录用户 ID（从 ThreadLocal 中获取解析 token 后的 ID）
+        Long currentUserId = BaseContext.getCurrentId();
+
+        // 生成订单号
         String orderNo = OrderUtils.generateOrderSn();
 
         LocalDateTime now = LocalDateTime.now();
         List<OrderDetailDTO> itemDTOs = orderDTO.getOrderItems();
 
-        // 提取DTO中的ID
+        // 提取 DTO 中的 ID
         List<Long> serviceItemIds = itemDTOs.stream()
                 .map(OrderDetailDTO::getServiceItemId)
                 .distinct()
                 .collect(Collectors.toList());
 
-        // 查出数据库中真实的服务项列表，并转为 Map（ID：ServiceItem） 方便查询
+        // 查出数据库中真实的服务项列表
         List<ServiceItem> dbServiceItems = serviceItemMapper.listByIds(serviceItemIds);
         Map<Long, ServiceItem> serviceItemMap = dbServiceItems.stream()
                 .collect(Collectors.toMap(ServiceItem::getId, s -> s));
 
-        // 核心计算与数据准备
         BigDecimal totalAmount = BigDecimal.ZERO;
         List<OrderServiceLogic> detailEntities = new ArrayList<>();
         List<OrderDetailVO> voServiceList = new ArrayList<>();
@@ -82,32 +84,30 @@ public class UserOrderServiceImpl implements UserOrderService {
                 throw new ServiceItemNotFoundException(ServiceItemConstant.SERVICE_ITEM_NOT_FOUND);
             }
 
-            // 使用数据库中的单价，不使用前端传的 price
+            // 使用数据库单价，确保金额安全
             BigDecimal unitPrice = BigDecimal.valueOf(dbItem.getPrice());
             BigDecimal subtotal = unitPrice.multiply(BigDecimal.valueOf(item.getQuantity()));
             totalAmount = totalAmount.add(subtotal);
 
-            // 准备数据库实体
             detailEntities.add(OrderServiceLogic.builder()
                     .serviceItemId(item.getServiceItemId())
                     .quantity(item.getQuantity())
-                    .unitPrice(dbItem.getPrice()) // 存储真实单价
+                    .unitPrice(dbItem.getPrice())
                     .subtotalPrice(subtotal.doubleValue())
                     .createTime(now)
                     .build());
 
-            // 准备 VO 返回数据
             voServiceList.add(OrderDetailVO.builder()
-                    .serviceItemName(dbItem.getName()) // 数据库里的名称
+                    .serviceItemName(dbItem.getName())
                     .quantity(item.getQuantity())
-                    .price(dbItem.getPrice())         // 数据库里的单价
+                    .price(dbItem.getPrice())
                     .build());
         }
 
-        // 插入订单主表（直接带入计算好的总价）
+        // 2. 插入订单主表：使用从 BaseContext 获取的 currentUserId
         Order order = Order.builder()
                 .orderNo(orderNo)
-                .userId(orderDTO.getUserId())
+                .userId(currentUserId) // 此处已修改
                 .moveType(orderDTO.getMoveType())
                 .startAddressId(orderDTO.getStartAddressId())
                 .endAddressId(orderDTO.getEndAddressId())
@@ -118,14 +118,12 @@ public class UserOrderServiceImpl implements UserOrderService {
                 .isCommented(CommentStatusConstant.PENDING_COMMENTED)
                 .build();
 
-        orderMapper.createOrder(order); // MyBatis 回填 ID
+        orderMapper.createOrder(order);
 
-        // 批量插入详情表
         Long orderId = order.getId();
         detailEntities.forEach(d -> d.setOrderId(orderId));
         orderServiceLogicMapper.insertBatch(detailEntities);
 
-        // 组装 VO 返回
         return assembleFinalVO(order, orderDTO, voServiceList);
     }
 
@@ -273,6 +271,7 @@ public class UserOrderServiceImpl implements UserOrderService {
         }
         return UserOrderMoverVO.builder()
                .moverId(mover.getId())
+               .avatar(mover.getAvatar())
                .moverName(mover.getName())
                .build();
     }
@@ -385,5 +384,18 @@ public class UserOrderServiceImpl implements UserOrderService {
             case "5": return "已取消";
             default: return "处理中";
         }
+    }
+
+    //查询师傅信息
+    public UserOrderMoverVO getMoverBasicInfo(Long orderId) {
+        // 直接查数据库，不判断订单状态
+        Mover mover = orderMapper.getMoverInfoByOrderId(orderId);
+        if (mover == null) {
+            throw new MoverNotFoundException(MessageConstant.MOVER_NOT_FOUND);
+        }
+        return UserOrderMoverVO.builder()
+                .moverId(mover.getId())
+                .moverName(mover.getName())
+                .build();
     }
 }

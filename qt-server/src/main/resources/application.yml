@@ -44,6 +44,8 @@ mybatis:
   type-aliases-package: com.hotaru.entity
   configuration:
     map-underscore-to-camel-case: true
+    # 处理为枚举的名字
+    default-enum-type-handler: org.apache.ibatis.type.EnumTypeHandler
 
 logging:
   level:
@@ -88,4 +90,7 @@ qt:
       access-key-id: ${qt.aliyun.access-key-id}
       access-key-secret: ${qt.aliyun.access-key-secret}
       bucket-name: ${qt.aliyun.bucket-name}
+  wx:
+    appId: ${qt.wx.appid}
+    appSecret: ${qt.wx.secret}
 

@@ -9,17 +9,12 @@ import java.io.Serializable;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserLoginVO implements Serializable {
+@NoArgsConstructor
+public class UserInfoOrdersVO implements Serializable {
+    // 待服务数量
+    private Integer toBeServed;
 
-    //openid
-    private String openid;
-
-    //手机号
-    private String phone;
-
-    //jwt令牌
-    private String token;
-
+    // 已完成数量
+    private Integer completed;
 }

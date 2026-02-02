@@ -7,9 +7,7 @@ import java.io.Serializable;
 @Data
 public class UserLoginDTO implements Serializable {
 
-    // 手机号
-    private String phone;
+    // code
+    private String code;
 
-    // 密码
-    private String password;
 }

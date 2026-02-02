@@ -9,8 +9,7 @@ public class JwtClaimsConstant {
 
     // 用户端
     public static final String USER_ID = "userId";
-    public static final String PHONE = "phone";
-    public static final String USERNAME = "nickname";
+    public static final String NICKNAME = "nickname";
 
     // 通用
     public static final String ROLES = "role";

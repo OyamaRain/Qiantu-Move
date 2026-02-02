@@ -18,3 +18,6 @@ qt:
       access-key-id: ${ALIYUN_OSS_ACCESS_KEY_ID}
       access-key-secret: ${ALIYUN_OSS_ACCESS_KEY_SECRET}
       bucket-name: ${ALIYUN_OSS_BUCKET_NAME}
+  wx:
+    appId: ${WX_APPID}
+    appSecret: ${WX_SECRET}

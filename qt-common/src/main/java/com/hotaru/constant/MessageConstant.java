@@ -21,6 +21,9 @@ public class MessageConstant {
     public static final String ORDER_CANNOT_CANCELLED = "当前状态无法取消订单";
     public static final String ORDER_CANNOT_COMMENT_BEFORE_FINISH = "订单未完成，无法评价";
     public static final String ORDER_CANNOT_COMMENT_TWICE = "订单已评价，无法再次评价";
+    public static final String USER_NOT_FOUND = "用户不存在";
+    public static final String ILLEGAL_OPERATION = "非法操作";
+    public static final String COMMENT_NOT_FOUND = "评论不存在";
 
 
 
