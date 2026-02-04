@@ -43,12 +43,12 @@ public class AdminOrderController {
     }
 
     @Log("派送订单")
-    @PostMapping("/{id}/dispatch")
+    @PostMapping("/{id}/dispatch/{moverId}")
     @Tag(name = "订单管理")
     @Operation(summary = "派送订单")
-    public Result dispatch(@PathVariable Long id) {
-        log.info("指派订单{}", id);
-        orderService.dispatch(id);
+    public Result dispatch(@PathVariable Long id,@PathVariable Long moverId) {
+        log.info("指派订单{},{}", id, moverId);
+        orderService.dispatch(id,moverId);
         return Result.success();
     }
 

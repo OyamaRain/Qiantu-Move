@@ -1,6 +1,8 @@
 package com.hotaru.controller.admin;
 
 import com.hotaru.annotation.Log;
+import com.hotaru.dto.admin.MoverApplyPageQueryDTO;
+import com.hotaru.dto.admin.MoverApplyRejectReasonDTO;
 import com.hotaru.dto.admin.MoverDTO;
 import com.hotaru.dto.admin.MoverPageQueryDTO;
 import com.hotaru.result.PageResult;
@@ -65,6 +67,37 @@ public class AdminMoverController {
         moverService.update(moverDTO);
         return Result.success();
     }
+
+    @GetMapping("/apply/page")
+    @Tag(name = "搬家师傅管理")
+    @Operation(summary = "分页查询搬家师傅申请信息")
+    public Result<PageResult> getApplyPage(@ParameterObject MoverApplyPageQueryDTO moverApplyPageQueryDTO) {
+        log.info("分页查询搬家师傅申请信息:{}", moverApplyPageQueryDTO);
+        PageResult pageResult = moverService.getApplyPage(moverApplyPageQueryDTO);
+        return Result.success(pageResult);
+    }
+
+    @Log("通过申请")
+    @PostMapping("/apply/{id}/approve")
+    @Tag(name = "搬家师傅管理")
+    @Operation(summary = "通过申请")
+    public Result approveApply(@PathVariable Long id){
+        log.info("通过申请ID:{}", id);
+        moverService.approveApply(id);
+        return Result.success();
+    }
+
+    @Log("拒绝申请")
+    @PostMapping("/apply/{id}/reject")
+    @Tag(name = "搬家师傅管理")
+    @Operation(summary = "拒绝申请")
+    public Result rejectApply(@PathVariable Long id,@RequestBody MoverApplyRejectReasonDTO moverApplyRejectReasonDTO){
+        log.info("拒绝申请ID:{},理由：{}", id,moverApplyRejectReasonDTO);
+        moverService.rejectApply(id,moverApplyRejectReasonDTO);
+        return Result.success();
+    }
+
+
 
 
 

@@ -51,6 +51,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } else if (requestURI.startsWith("/user")) {
             token = request.getHeader(jwtProperties.getUserTokenName());
             secretKey = jwtProperties.getUserSecretKey();
+        } else if (requestURI.startsWith("/mover")) {
+            token = request.getHeader(jwtProperties.getUserTokenName());
+            secretKey = jwtProperties.getUserSecretKey();
         }
 
         // 2. 如果 token 不存在

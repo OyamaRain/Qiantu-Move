@@ -2,11 +2,15 @@ package com.hotaru.mapper;
 
 import com.github.pagehelper.Page;
 import com.hotaru.dto.admin.OrderPageQueryDTO;
+import com.hotaru.dto.mover.CompletedPageQueryDTO;
+import com.hotaru.dto.mover.OngoingPageQueryDTO;
 import com.hotaru.entity.Mover;
+import com.hotaru.entity.MoverOrderDispatch;
 import com.hotaru.entity.Order;
 import com.hotaru.vo.admin.OrderVO;
 import com.hotaru.vo.user.UserOrderDetailVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,4 +43,10 @@ public interface OrderMapper {
     void markCommented(Long orderId);
 
     Map<String, Object> getOrderCountById(Long userId);
+
+    Page<Order> moverOrderPageQuery(@Param("orderPageQueryDTO") com.hotaru.dto.mover.OrderPageQueryDTO orderPageQueryDTO, @Param("moverId") Long moverId);
+
+    Page<Order> ongoingPageQuery(OngoingPageQueryDTO ongoingPageQueryDTO, Long moverId);
+
+    Page<Order> completedPageQuery(CompletedPageQueryDTO completedPageQueryDTO, Long moverId);
 }

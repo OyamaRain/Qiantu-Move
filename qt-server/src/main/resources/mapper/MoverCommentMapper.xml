@@ -11,4 +11,9 @@
             (#{orderId}, #{moverId}, #{userId}, #{score}, #{content}, #{createTime})
     </insert>
 
+    <select id="getByMoverId" resultType="com.hotaru.entity.MoverComment">
+        select * from mover_comment
+        where mover_id = #{moverId}
+    </select>
+
 </mapper>

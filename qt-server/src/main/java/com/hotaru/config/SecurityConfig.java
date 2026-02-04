@@ -51,6 +51,7 @@ public class SecurityConfig {
                         // 3. 移动端权限控制
                         // 只有 USER 或 MOVER 角色的 token 才能访问 /user/**
                         .requestMatchers("/user/**").hasAnyRole("USER", "MOVER")
+                        .requestMatchers("/mover/**").hasAnyRole("MOVER")
 
                         // 4. 其他任何请求必须登录
                         .anyRequest().authenticated()

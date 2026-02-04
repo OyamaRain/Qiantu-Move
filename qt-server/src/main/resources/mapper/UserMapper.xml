@@ -27,4 +27,15 @@
         where id = #{id}
     </update>
 
+    <update id="updateRole">
+        update user
+        <set>
+            <if test="role != null">
+                role = #{role},
+            </if>
+            update_time = NOW()
+        </set>
+        where id = #{userId}
+    </update>
+
 </mapper>

@@ -5,22 +5,23 @@ import com.github.pagehelper.PageHelper;
 import com.hotaru.constant.MessageConstant;
 import com.hotaru.context.BaseContext;
 import com.hotaru.dto.user.CommentPageQueryDTO;
+import com.hotaru.dto.user.MoverApplyDTO;
 import com.hotaru.entity.*;
+import com.hotaru.enumeration.RoleEnum;
 import com.hotaru.exception.AbnormalIllegalInfoException;
 import com.hotaru.exception.CommentNotFoundException;
+import com.hotaru.exception.MoverApplyException;
 import com.hotaru.exception.UserNotFoundException;
 import com.hotaru.mapper.*;
 import com.hotaru.result.PageResult;
 import com.hotaru.service.user.UserInfoService;
 import com.hotaru.vo.user.CommentDetailVO;
 import com.hotaru.vo.user.CommentVO;
-import com.hotaru.vo.user.UserInfoOrdersVO;
 import com.hotaru.vo.user.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
@@ -37,6 +38,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     private MoverCommentMapper moverCommentMapper;
     @Autowired
     private MoverMapper moverMapper;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private ApplyMapper applyMapper;
 
     @Override
     public UserInfoVO getUserInfo(Long currentId) {
@@ -55,29 +60,6 @@ public class UserInfoServiceImpl implements UserInfoService {
                 .avatar(user.getAvatar())
                 .phone(user.getPhone())
                 .role(String.valueOf(user.getRole()))
-                .build();
-    }
-
-    @Override
-    public UserInfoOrdersVO getUserInfoOrders(Long currentId) {
-
-        Map<String,Object> orderCount = orderMapper.getOrderCountById(currentId);
-
-        Integer toBeServed = 0;
-        Integer completed = 0;
-
-        if (orderCount != null) {
-            if (orderCount.get("toBeServed") != null) {
-                toBeServed = ((Number) orderCount.get("toBeServed")).intValue();
-            }
-            if (orderCount.get("completed") != null) {
-                completed = ((Number) orderCount.get("completed")).intValue();
-            }
-        }
-
-        return UserInfoOrdersVO.builder()
-                .toBeServed(toBeServed)
-                .completed(completed)
                 .build();
     }
 
@@ -119,5 +101,37 @@ public class UserInfoServiceImpl implements UserInfoService {
                 .createTime(oc.getCreateTime())
                 .build();
 
+    }
+
+    @Override
+    public void applyMover(MoverApplyDTO moverApplyDTO) {
+        // 1. 是否已是师傅
+        Long currentId = BaseContext.getCurrentId();
+        User user = userMapper.getById(currentId);
+        if (RoleEnum.MOVER.equals(user.getRole())) {
+            throw new MoverApplyException("您已经是师傅了");
+        }
+
+        // 2. 是否已有申请
+        MoverApply apply = applyMapper.selectByUserId(currentId);
+        if (apply != null) {
+            if (apply.getApplyStatus() == 0) {
+                throw new MoverApplyException("申请正在审核中");
+            }
+            if (apply.getApplyStatus() == 1) {
+                throw new MoverApplyException("已通过审核");
+            }
+        }
+
+        // 3. 保存申请
+        MoverApply newApply = MoverApply.builder()
+                .userId(currentId)
+                .name(moverApplyDTO.getName())
+                .phone(moverApplyDTO.getPhone())
+                .applyStatus(0)
+                .createTime(LocalDateTime.now())
+                .build();
+
+        applyMapper.insert(newApply);
     }
 }

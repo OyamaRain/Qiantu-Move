@@ -1,4 +1,4 @@
-package com.hotaru.vo.user;
+package com.hotaru.vo.mover;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInfoOrdersVO implements Serializable {
+public class MoverInfoOrdersVO implements Serializable {
     // 待服务数量
     private Integer toBeServed;
 

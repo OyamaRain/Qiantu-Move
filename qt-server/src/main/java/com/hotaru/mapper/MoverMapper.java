@@ -24,6 +24,7 @@ public interface MoverMapper {
 
     void updateRating(Long moverId, BigDecimal newRating, int orderCount);
 
-    @Select("select avatar from mover where id = #{moverId}")
-    String getAvatarById(Long moverId);
+    void insert(Mover build);
+
+    void updateStatus(Long moverId, Integer status);
 }

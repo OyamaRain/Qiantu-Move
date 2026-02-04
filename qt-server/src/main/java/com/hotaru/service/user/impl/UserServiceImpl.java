@@ -4,15 +4,20 @@ import ch.qos.logback.core.testUtil.RandomUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.hotaru.constant.JwtClaimsConstant;
+import com.hotaru.constant.MessageConstant;
 import com.hotaru.constant.StatusConstant;
 import com.hotaru.context.BaseContext;
 import com.hotaru.dto.user.UserUpdateInfoDTO;
 import com.hotaru.entity.User;
 import com.hotaru.enumeration.RoleEnum;
+import com.hotaru.exception.RoleSwitchException;
+import com.hotaru.exception.UserNotFoundException;
+import com.hotaru.mapper.MoverMapper;
 import com.hotaru.mapper.UserMapper;
 import com.hotaru.properties.JwtProperties;
 import com.hotaru.service.user.UserService;
 import com.hotaru.utils.JwtUtil;
+import com.hotaru.vo.user.SwitchRoleVO;
 import com.hotaru.vo.user.UserLoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +43,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private JwtProperties jwtProperties;
+    @Autowired
+    private MoverMapper moverMapper;
 
     @Override
     public UserLoginVO wxLogin(String code) {
@@ -94,4 +101,34 @@ public class UserServiceImpl implements UserService {
         user.setUpdateTime(LocalDateTime.now());
         userMapper.update(user);
     }
+
+    @Override
+    public SwitchRoleVO switchRole() {
+        Long userId = BaseContext.getCurrentId();
+        User currentUser = userMapper.getById(userId);
+
+        if(currentUser == null){
+            throw new UserNotFoundException(MessageConstant.USER_NOT_FOUND);
+        }
+
+        if(currentUser.getRole() == RoleEnum.USER){
+            throw new RoleSwitchException("未申请成为搬家师傅");
+        }
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(JwtClaimsConstant.USER_ID, userId);
+        claims.put(JwtClaimsConstant.ROLES, RoleEnum.MOVER);
+        claims.put(JwtClaimsConstant.NICKNAME, currentUser.getNickname());
+        String token = JwtUtil.createJWT(
+                jwtProperties.getUserSecretKey(),
+                jwtProperties.getUserTtl(),
+                claims);
+
+        return SwitchRoleVO.builder()
+                .token(token)
+                .build();
+
+    }
+
+
 }

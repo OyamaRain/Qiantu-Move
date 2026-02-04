@@ -15,7 +15,7 @@ public interface AdminOrderService {
     PageResult pageQuery(OrderPageQueryDTO orderPageQueryDTO);
 
     //派单
-    void dispatch(Long id);
+    void dispatch(Long id,Long moverId);
 
     //取消
     void cancel(Long id);

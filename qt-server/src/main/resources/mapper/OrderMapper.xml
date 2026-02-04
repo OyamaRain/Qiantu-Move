@@ -183,4 +183,27 @@
         WHERE user_id = #{userId}
     </select>
 
+    <select id="moverOrderPageQuery" resultType="com.hotaru.entity.Order">
+        SELECT o.*
+        FROM orders o
+                 JOIN mover_order_dispatch d ON d.order_id = o.id
+        WHERE d.mover_id = #{moverId}
+          AND d.dispatch_status = 0
+        ORDER BY o.create_time DESC
+    </select>
+
+    <select id="ongoingPageQuery" resultType="com.hotaru.entity.Order">
+        select * from orders
+        where mover_id = #{moverId}
+          and status = 3
+        order by create_time desc
+    </select>
+
+    <select id="completedPageQuery" resultType="com.hotaru.entity.Order">
+        select * from orders
+        where mover_id = #{moverId}
+          and status = 4
+        order by create_time desc
+    </select>
+
 </mapper>

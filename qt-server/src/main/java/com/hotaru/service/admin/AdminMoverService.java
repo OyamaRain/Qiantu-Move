@@ -1,5 +1,7 @@
 package com.hotaru.service.admin;
 
+import com.hotaru.dto.admin.MoverApplyPageQueryDTO;
+import com.hotaru.dto.admin.MoverApplyRejectReasonDTO;
 import com.hotaru.dto.admin.MoverDTO;
 import com.hotaru.dto.admin.MoverPageQueryDTO;
 import com.hotaru.result.PageResult;
@@ -17,4 +19,13 @@ public interface AdminMoverService {
 
     // 编辑搬家师傅信息
     void update(MoverDTO moverDTO);
+
+    // 分页查询搬家师傅申请信息
+    PageResult getApplyPage(MoverApplyPageQueryDTO moverApplyPageQueryDTO);
+
+    // 通过申请
+    void approveApply(Long id);
+
+    // 拒绝申请
+    void rejectApply(Long id, MoverApplyRejectReasonDTO moverApplyRejectReasonDTO);
 }

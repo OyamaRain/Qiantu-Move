@@ -70,4 +70,17 @@
         where id = #{moverId}
     </update>
 
+    <insert id="insert">
+        insert into mover
+        (name, phone, avatar, status, rating, order_count, create_time)
+        VALUES
+        (#{name}, #{phone}, #{avatar}, #{status}, #{rating}, #{orderCount}, #{createTime})
+    </insert>
+
+    <update id="updateStatus">
+        update mover
+        set status = #{status}
+        where id = #{moverId}
+    </update>
+
 </mapper>

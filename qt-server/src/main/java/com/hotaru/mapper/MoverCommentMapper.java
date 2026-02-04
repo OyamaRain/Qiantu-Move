@@ -1,5 +1,7 @@
 package com.hotaru.mapper;
 
+import com.github.pagehelper.Page;
+import com.hotaru.dto.mover.CommentPageQueryDTO;
 import com.hotaru.entity.MoverComment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -10,4 +12,6 @@ public interface MoverCommentMapper {
 
     @Select("select * from mover_comment where order_id = #{orderId}")
     MoverComment getByOrderId(Long id);
+
+    Page<MoverComment> getByMoverId(CommentPageQueryDTO commentPageQueryDTO);
 }

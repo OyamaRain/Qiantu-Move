@@ -2,14 +2,18 @@ package com.hotaru.service.admin.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.hotaru.constant.DispatchStatusConstant;
 import com.hotaru.constant.MessageConstant;
 import com.hotaru.constant.OrderStatusConstant;
 import com.hotaru.dto.admin.OrderPageQueryDTO;
 import com.hotaru.entity.Mover;
+import com.hotaru.entity.MoverOrderDispatch;
 import com.hotaru.entity.Order;
+import com.hotaru.exception.DispatchOrderException;
 import com.hotaru.exception.ExpectedMoverNotFoundException;
 import com.hotaru.exception.OrderNotFoundException;
 import com.hotaru.exception.OrderStatusErrorException;
+import com.hotaru.mapper.DispatchMapper;
 import com.hotaru.mapper.MoverMapper;
 import com.hotaru.mapper.OrderMapper;
 import com.hotaru.result.PageResult;
@@ -29,6 +33,8 @@ public class AdminAdminOrderServiceImpl implements AdminOrderService {
     private OrderMapper orderMapper;
     @Autowired
     private MoverMapper moverMapper;
+    @Autowired
+    private DispatchMapper dispatchMapper;
 
     @Override
     public OrderVO list(Long id) {
@@ -60,26 +66,44 @@ public class AdminAdminOrderServiceImpl implements AdminOrderService {
 
     @Override
     @Transactional
-    public void dispatch(Long id) {
-        // 调用Mapper查询订单
-        Order order = orderMapper.getById(id);
+    public void dispatch(Long orderId, Long moverId) {
 
-        // 检查订单是否存在
+        // 校验订单
+        Order order = orderMapper.getById(orderId);
         if (order == null) {
             throw new OrderNotFoundException(MessageConstant.ORDER_NOT_FOUND);
         }
 
-        // 检查订单状态是否为已支付
-        if(order.getStatus() != OrderStatusConstant.PAID){
+        // 只有“已支付”的订单才能后台手动派单
+        if (order.getStatus() != OrderStatusConstant.PAID
+                && order.getStatus() != OrderStatusConstant.PENDING_ASSIGN) {
             throw new OrderStatusErrorException(MessageConstant.ORDER_STATUS_ERROR);
         }
 
-        // 更新订单状态为待接单
+        // 只要还有 WAITING，就不允许再次派单
+        int waitingCount = dispatchMapper.countWaitingByOrderId(orderId);
+        if (waitingCount > 0) {
+            throw new DispatchOrderException("该订单已有待响应的派单");
+        }
+
+        // 插入派单记录
+        MoverOrderDispatch dispatch = new MoverOrderDispatch();
+        dispatch.setOrderId(orderId);
+        dispatch.setMoverId(moverId);
+        dispatch.setDispatchStatus(DispatchStatusConstant.WAITING);
+        dispatch.setDispatchTime(LocalDateTime.now());
+        dispatch.setCreateTime(LocalDateTime.now());
+        dispatch.setUpdateTime(LocalDateTime.now());
+
+        dispatchMapper.insert(dispatch);
+
+        // 更新订单状态为待派单
         order.setStatus(OrderStatusConstant.PENDING_ASSIGN);
-        //TODO 等待师傅接单
         order.setUpdateTime(LocalDateTime.now());
         orderMapper.update(order);
+
     }
+
 
     @Override
     @Transactional
@@ -124,6 +148,9 @@ public class AdminAdminOrderServiceImpl implements AdminOrderService {
         order.setStatus(OrderStatusConstant.COMPLETED);
         order.setUpdateTime(LocalDateTime.now());
         orderMapper.update(order);
+
+        // 更新师傅状态为空闲
+        moverMapper.updateStatus(order.getMoverId(), 1);
     }
 
     @Override
