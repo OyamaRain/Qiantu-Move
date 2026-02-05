@@ -8,6 +8,7 @@ import com.hotaru.entity.Mover;
 import com.hotaru.entity.MoverOrderDispatch;
 import com.hotaru.entity.Order;
 import com.hotaru.vo.admin.OrderVO;
+import com.hotaru.vo.mover.MoverOrderDetailVO;
 import com.hotaru.vo.user.UserOrderDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -49,4 +50,8 @@ public interface OrderMapper {
     Page<Order> ongoingPageQuery(OngoingPageQueryDTO ongoingPageQueryDTO, Long moverId);
 
     Page<Order> completedPageQuery(CompletedPageQueryDTO completedPageQueryDTO, Long moverId);
+
+    Integer getCountsByMoverId(Long currentId);
+
+    MoverOrderDetailVO getDetailWithRelations4Mover(Long orderId, Long moverId);
 }

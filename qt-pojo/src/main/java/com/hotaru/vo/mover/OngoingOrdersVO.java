@@ -11,10 +11,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MoverInfoOrdersVO implements Serializable {
-    // 待服务数量
-    private Integer toBeServed;
-
-    // 已完成数量
-    private Integer completed;
+public class OngoingOrdersVO implements Serializable {
+    // 进行中订单
+    private Integer ongoing;
 }

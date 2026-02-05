@@ -4,6 +4,8 @@ import com.hotaru.dto.mover.CompletedPageQueryDTO;
 import com.hotaru.dto.mover.OngoingPageQueryDTO;
 import com.hotaru.dto.mover.OrderPageQueryDTO;
 import com.hotaru.result.PageResult;
+import com.hotaru.vo.mover.MoverOrderDetailVO;
+import com.hotaru.vo.user.UserOrderDetailVO;
 
 public interface MoverOrderService {
     //查看待接订单
@@ -20,4 +22,8 @@ public interface MoverOrderService {
 
     //查看已完成的订单
     PageResult getCompletedOrders(CompletedPageQueryDTO completedPageQueryDTO);
+
+    //查看订单详情
+    MoverOrderDetailVO getDetailsById(Long orderId);
+
 }

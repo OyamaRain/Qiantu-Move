@@ -8,15 +8,16 @@ import com.hotaru.dto.mover.CommentPageQueryDTO;
 import com.hotaru.entity.Mover;
 import com.hotaru.entity.MoverComment;
 import com.hotaru.enumeration.RoleEnum;
-import com.hotaru.exception.CommentNotFoundException;
 import com.hotaru.exception.MoverNotFoundException;
+import com.hotaru.mapper.DispatchMapper;
 import com.hotaru.mapper.MoverCommentMapper;
 import com.hotaru.mapper.MoverMapper;
 import com.hotaru.mapper.OrderMapper;
 import com.hotaru.result.PageResult;
 import com.hotaru.service.mover.MoverInfoService;
 import com.hotaru.vo.mover.MoverCommentVO;
-import com.hotaru.vo.mover.MoverInfoOrdersVO;
+import com.hotaru.vo.mover.OngoingOrdersVO;
+import com.hotaru.vo.mover.ToBeResponseOrdersVO;
 import com.hotaru.vo.mover.MoverInfoVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,28 +36,8 @@ public class MoverInfoServiceImpl implements MoverInfoService {
     private MoverMapper moverMapper;
     @Autowired
     private MoverCommentMapper moverCommentMapper;
-
-    @Override
-    public MoverInfoOrdersVO getMoverInfoOrders(Long currentId) {
-        Map<String,Object> orderCount = orderMapper.getOrderCountById(currentId);
-
-        Integer toBeServed = 0;
-        Integer completed = 0;
-
-        if (orderCount != null) {
-            if (orderCount.get("toBeServed") != null) {
-                toBeServed = ((Number) orderCount.get("toBeServed")).intValue();
-            }
-            if (orderCount.get("completed") != null) {
-                completed = ((Number) orderCount.get("completed")).intValue();
-            }
-        }
-
-        return MoverInfoOrdersVO.builder()
-                .toBeServed(toBeServed)
-                .completed(completed)
-                .build();
-    }
+    @Autowired
+    private DispatchMapper dispatchMapper;
 
     @Override
     public MoverInfoVO getMoverInfo(Long currentId) {
@@ -71,6 +52,7 @@ public class MoverInfoServiceImpl implements MoverInfoService {
         vo.setName(currentMover.getName());
         vo.setAvatar(currentMover.getAvatar());
         vo.setPhone(currentMover.getPhone());
+        vo.setCreateTime(currentMover.getCreateTime());
         return vo;
     }
 
@@ -101,5 +83,23 @@ public class MoverInfoServiceImpl implements MoverInfoService {
 
         return new PageResult(page.getTotal(), voList);
 
+    }
+
+    @Override
+    public ToBeResponseOrdersVO getToBeResponseOrders(Long currentId) {
+        Integer toBeResponse = dispatchMapper.getCountsByMoverId(currentId);
+
+        ToBeResponseOrdersVO vo = new ToBeResponseOrdersVO();
+        vo.setToBeResponse(toBeResponse);
+        return vo;
+    }
+
+    @Override
+    public OngoingOrdersVO getOngoingOrders(Long currentId) {
+        Integer ongoing = orderMapper.getCountsByMoverId(currentId);
+
+        OngoingOrdersVO vo = new OngoingOrdersVO();
+        vo.setOngoing(ongoing);
+        return vo;
     }
 }

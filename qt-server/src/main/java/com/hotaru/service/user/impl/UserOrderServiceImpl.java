@@ -368,7 +368,11 @@ public class UserOrderServiceImpl implements UserOrderService {
     // 格式化地址 --- 配合VO组装
     private String formatAddress(UserAddress addr) {
         if (addr == null) return "未知地址";
-        return addr.getProvince() + addr.getCity() + addr.getDistrict() + addr.getDetailAddress();
+        if (addr.getProvince().equals(addr.getCity())) {
+            return addr.getProvince() + addr.getDistrict() + addr.getDetailAddress();
+        }else{
+            return addr.getProvince() + addr.getCity() + addr.getDistrict() + addr.getDetailAddress();
+        }
     }
 
     //状态码转换工具方法

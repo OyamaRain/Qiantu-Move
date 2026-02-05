@@ -206,4 +206,20 @@
         order by create_time desc
     </select>
 
+    <select id="getCountsByMoverId" resultType="java.lang.Integer">
+        select count(*) from orders
+        where mover_id = #{moverId}
+          and status = 3
+    </select>
+
+    <select id="getDetailWithRelations4Mover" resultType="com.hotaru.vo.mover.MoverOrderDetailVO">
+        SELECT
+            o.order_no, o.appointment_time, o.move_type, o.status, o.total_amount, o.create_time, o.update_time,
+            o.start_address_id, o.end_address_id,o.is_commented,
+            m.name AS mover_name, m.phone AS mover_phone
+        FROM orders o
+                 LEFT JOIN mover m ON o.mover_id = m.id
+        WHERE o.id = #{orderId} AND o.mover_id = #{moverId}
+    </select>
+
 </mapper>

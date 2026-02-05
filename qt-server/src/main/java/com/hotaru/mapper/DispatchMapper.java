@@ -17,4 +17,5 @@ public interface DispatchMapper {
 
     int countWaitingByOrderId(Long orderId);
 
+    Integer getCountsByMoverId(Long moverId);
 }

@@ -26,4 +26,10 @@
         and dispatch_status = 0
     </select>
 
+    <select id="getCountsByMoverId" resultType="java.lang.Integer">
+        select count(*) from mover_order_dispatch
+        where mover_id = #{moverId}
+        and dispatch_status = 0
+    </select>
+
 </mapper>
