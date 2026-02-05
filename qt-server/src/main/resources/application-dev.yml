@@ -4,12 +4,12 @@ qt:
     port: 3306
     database: qiantu_move
     username: root
-    password: "114514"
+    password: ${DATABASE_PASSWORD}
   jwt:
-    admin-secret-key: HOTARU-26710-SECRET-KEY-FOR-JWT-AUTHENTICATION
+    admin-secret-key: ${JWT_SECRET_KEY}
     admin-ttl: 604800000 # 7天
     admin-token-name: token
-    user-secret-key: HOTARU-26710-SECRET-KEY-FOR-JWT-AUTHENTICATION
+    user-secret-key: ${JWT_SECRET_KEY}
     user-ttl: 604800000 # 7天
     user-token-name: token
   aliyun:
